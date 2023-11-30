@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { asyncHandler, SuccessResponse } from "../../../utils/handlers.js";
 import userModel from "../models/user.model.js";
 
@@ -6,7 +7,7 @@ export const login = asyncHandler(async (req, res, next) => {
     const user = await userModel.findOne({
       userName,
       password
-    }).select("-password");
+    }).select("-password -__v -createdAt -updatedAt");
     if (!user) {
       return next(new Error("Either Email or Password is wrong", { cause: 404 }));
     }
@@ -22,7 +23,7 @@ export const login = asyncHandler(async (req, res, next) => {
         message: `login success`,
         accessToken: token,
         refreshToken: refreshToken,
-        user : user
+        user
       },
       200
     );

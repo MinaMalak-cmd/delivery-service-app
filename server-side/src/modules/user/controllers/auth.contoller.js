@@ -7,7 +7,7 @@ export const login = asyncHandler(async (req, res, next) => {
     const user = await userModel.findOne({
       userName,
       password
-    }).select("-password -__v -createdAt -updatedAt");
+    }).select("userName role");
     if (!user) {
       return next(new Error("Either Email or Password is wrong", { cause: 404 }));
     }

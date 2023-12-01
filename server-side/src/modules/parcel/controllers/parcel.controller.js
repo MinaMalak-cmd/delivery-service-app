@@ -1,7 +1,4 @@
-import  mongoose from 'mongoose';
-
 import { asyncHandler, SuccessResponse } from "../../../utils/handlers.js";
-import userModel from "../../user/models/user.model.js";
 import parcelModel from "../models/parcel.model.js";
 
 export const getAllParcels = asyncHandler(async (req, res, next) => {
@@ -20,21 +17,16 @@ export const getAllParcels = asyncHandler(async (req, res, next) => {
 });
 
 export const addParcel = asyncHandler(async (req, res, next) => {
-  const { createdBy, parcelName, pickupAddress, dropOffAddress } = req.body;
-  if (!mongoose.Types.ObjectId.isValid(createdBy)) {
-    return next(new Error("'Invalid ObjectId", { cause: 400 }));
-  }
-  if([parcelName, pickupAddress, dropOffAddress].some(item => !item)) {
+  const { parcelName, pickupAddress, dropOffAddress } = req.body;
+  if ([parcelName, pickupAddress, dropOffAddress].some((item) => !item)) {
     return next(new Error("All fields are required", { cause: 400 }));
   }
-  const user = await userModel.findById(createdBy);
-  if (!user) {
-    return next(new Error("User doesn't exist", { cause: 400 }));
-  }
-  const parcelObject = {createdBy,
+  const parcelObject = {
+    createdBy: req.user._id,
     parcelName,
     pickupAddress,
-    dropOffAddress}
+    dropOffAddress,
+  };
   const parcel = await parcelModel.create(parcelObject);
   if (!parcel) {
     return next(new Error("You can't add this resource", { cause: 500 }));

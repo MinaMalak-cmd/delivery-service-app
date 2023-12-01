@@ -35,7 +35,6 @@ const parcelSchema = new Schema(
     deliveredBy: {
       type: Types.ObjectId,
       ref: "User",
-      required: true,
     },
   },
   {

@@ -99,3 +99,16 @@ export const updateParcelStatus = asyncHandler(async (req, res, next) => {
     200
   );
 }); 
+
+export const getAllStatuses = asyncHandler(async (req, res, next) => {
+  const statuses = Object.values(parcelStatuses);
+  return SuccessResponse(
+        res,
+        {
+          message: "statuses retrieved successfully",
+          statusCode: 200,
+          statuses,
+        },
+        200
+      )
+});

@@ -5,6 +5,7 @@ import handleAuth from "../../../middlewares/handleAuth.js";
 const router = Router();
 
 router.get("/", parcelController.getAllParcels);
+router.get("/get-statuses", parcelController.getAllStatuses);
 router.post('/create', handleAuth, parcelController.addParcel);
 router.put('/assign-to/:parcelId', handleAuth, parcelController.assignParcel);
 router.patch('/update-parcel-status/:parcelId', handleAuth, parcelController.updateParcelStatus);

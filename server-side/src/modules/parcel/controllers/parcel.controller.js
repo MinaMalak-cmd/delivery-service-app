@@ -71,3 +71,31 @@ export const assignParcel = asyncHandler(async (req, res, next) => {
     200
   );
 }); 
+
+export const updateParcelStatus = asyncHandler(async (req, res, next) => {
+  const {parcelId} = req.params;
+  const { status } = req.body;
+  if (!status || !Object.values(parcelStatuses).includes(status)) {
+    return next(new Error("You must enter a valid status", { cause: 400 }));
+  }
+  if (!mongoose.Types.ObjectId.isValid(parcelId)) {
+    next(new Error("Invalid ObjectId", { cause: 400 }));
+  }
+  const parcel = await parcelModel.findById(parcelId); 
+  if (!parcel) {
+    return next(new Error("No parcel available with this id", { cause: 400 }));
+  }
+  if(req.user._id.toString() != parcel?.deliveredBy?.toString()) {
+    return next(new Error("You must be the delivery person", { cause: 400 }));
+  }
+  parcel.parcelStatus = status;
+  const updatedParcel = await parcel.save();
+  if (!updatedParcel) {
+    return next(new Error("You can't update this resource", { cause: 500 }));
+  }
+  return SuccessResponse(
+    res,
+    { message: "Parcel status updated successfully", statusCode: 230, updatedParcel },
+    200
+  );
+}); 

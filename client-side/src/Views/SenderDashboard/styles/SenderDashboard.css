@@ -1,0 +1,15 @@
+/* .black-color{
+    color: green;
+} */
+.MuiTableRow-root.pending  td:nth-child(4){
+    background-color: green;
+    color: blue;
+}
+.MuiTableRow-root.picked  td:nth-child(4){
+    background-color: yellow;
+    color: blue;
+}
+.MuiTableRow-root.delivered  td:nth-child(4){
+    background-color: red;
+    color: blue;
+}

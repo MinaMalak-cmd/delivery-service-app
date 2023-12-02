@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { asyncHandler, SuccessResponse } from "../../../utils/handlers.js";
 import parcelModel from "../models/parcel.model.js";
 import { parcelStatuses } from "../../../utils/constants.js";
+import { retrieveParcels } from "../services/parcel.service.js";
 
 export const getAllParcels = asyncHandler(async (req, res, next) => {
   const parcels = await parcelModel.find();
@@ -17,6 +18,27 @@ export const getAllParcels = asyncHandler(async (req, res, next) => {
         200
       )
     : next(new Error("Can't get All parcels", { cause: 400 }));
+});
+
+export const getAllUserAssignedParcels = asyncHandler(async (req, res, next) => {
+  const parcels = await parcelModel.find({
+    createdBy: req.user._id,
+  }).select("-__v").populate({
+    path:"deliveredBy",
+    select:"userName role"
+  })
+  return retrieveParcels(parcels, res);
+});
+
+export const getAllBikerAssignedParcels = asyncHandler(async (req, res, next) => {
+  const parcels = await parcelModel.find({
+    deliveredBy: req.user._id,
+  }).select("-__v").populate({
+      path:"createdBy",
+      select:"userName"
+    })
+  return retrieveParcels(parcels, res);
+
 });
 
 export const addParcel = asyncHandler(async (req, res, next) => {

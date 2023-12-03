@@ -11,15 +11,14 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems } from "./partials/listItems";
-import Orders from "./partials/Orders";
 import CopyRights from "../../Components/CopyRights";
-import "./styles/SenderDashboard.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button/Button";
+import CardActionArea from "@mui/material/CardActionArea";
+import Card from "@mui/material/Card/Card";
+import CardContent from "@mui/material/CardContent/CardContent";
+import { formatTimestamp } from "../../Utils/helperFunctions";
 
 const drawerWidth: number = 240;
 
@@ -74,20 +73,85 @@ const Drawer = styled(MuiDrawer, {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SenderDashboard() {
+export default function BikerTool() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      parcelName: data.get("parcelName"),
-      pickupAddress: data.get("pickupAddress"),
-      dropOffAddress: data.get("dropOffAddress"),
-    });
-  };
+  const myParcels = [
+    {
+      "_id": "656b06d60b9cd6040e60ec28",
+      "createdBy": {
+          "_id": "64a2835d0d891295bcb000c8",
+          "userName": "mina elan",
+          "role": "user"
+      },
+      "parcelName": "eeee",
+      "pickupAddress": "Cairo",
+      "dropOffAddress": "Gize",
+      "parcelStatus": "delivered",
+      "createdAt": "2023-12-02T10:28:38.863Z",
+      "updatedAt": "2023-12-02T14:40:32.258Z",
+      "deliveredBy": {
+          "_id": "74a283720d891295bcb030cc",
+          "userName": "ahmed salah",
+          "role": "biker"
+      },
+      "dropOffTime": "4-12-2023",
+      "pickupTime": "3-12-2023"
+    },
+    {
+      "_id": "656b06d60b9cd6040e60ec28",
+      "createdBy": {
+          "_id": "64a2835d0d891295bcb000c8",
+          "userName": "mina elan",
+          "role": "user"
+      },
+      "parcelName": "eeee",
+      "pickupAddress": "Cairo",
+      "dropOffAddress": "Gize",
+      "parcelStatus": "delivered",
+      "createdAt": "2023-12-02T10:28:38.863Z",
+      "updatedAt": "2023-12-02T14:40:32.258Z",
+      "deliveredBy": {
+          "_id": "74a283720d891295bcb030cc",
+          "userName": "ahmed salah",
+          "role": "biker"
+      },
+      "dropOffTime": "4-12-2023",
+      "pickupTime": "3-12-2023"
+    },
+    {
+      "_id": "656b06d60b9cd6040e60ec28",
+      "createdBy": {
+          "_id": "64a2835d0d891295bcb000c8",
+          "userName": "mina elan",
+          "role": "user"
+      },
+      "parcelName": "eeee",
+      "pickupAddress": "Cairo",
+      "dropOffAddress": "Gize",
+      "parcelStatus": "delivered",
+      "createdAt": "2023-12-02T10:28:38.863Z",
+      "updatedAt": "2023-12-02T14:40:32.258Z",
+      "deliveredBy": {
+          "_id": "74a283720d891295bcb030cc",
+          "userName": "ahmed salah",
+          "role": "biker"
+      },
+      "dropOffTime": "4-12-2023",
+      "pickupTime": "3-12-2023"
+    },
+  ];
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     parcelName: data.get("parcelName"),
+  //     pickupAddress: data.get("pickupAddress"),
+  //     dropOffAddress: data.get("dropOffAddress"),
+  //   });
+  // };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -117,7 +181,7 @@ export default function SenderDashboard() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Sender Dashboard
+              Biker Tool
             </Typography>
           </Toolbar>
         </AppBar>
@@ -135,9 +199,7 @@ export default function SenderDashboard() {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            {mainListItems}
-          </List>
+          <List component="nav">{mainListItems}</List>
         </Drawer>
         <Box
           component="main"
@@ -155,63 +217,49 @@ export default function SenderDashboard() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <h2>Add A new parcel</h2>
-                <Box
-                  component="form"
-                  noValidate
-                  onSubmit={handleSubmit}
-                  sx={{ mt: 2 }}
-                >
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="parcelName"
-                        label="Parcel Name"
-                        name="parcelName"
-                        autoComplete="Parcel Name"
-                      />
+                <h2>My Parcels</h2>
+                <Grid container spacing={4} sx={{mt:4}}>
+                  {myParcels.map((parcel, idx) => (
+                    <Grid item xs={12} md={4} key={idx}>
+                      <CardActionArea component="a" href="#">
+                        <Card sx={{ display: "flex" }}>
+                          <CardContent sx={{ flex: 1 }}>
+                            <Typography component="h2" variant="h5">
+                              {parcel.parcelName}
+                            </Typography>
+                            <Typography
+                              variant="subtitle1"
+                              color="text.secondary"
+                            >
+                              Created At {formatTimestamp(parcel.createdAt)}
+                            </Typography>
+                            <Typography variant="subtitle1" paragraph>
+                              {parcel?.createdBy?.userName}
+                            </Typography>
+                            {/* <Typography variant="subtitle1" color="primary">
+                              Continue reading...
+                            </Typography> */}
+                            <details>
+                              <p>Here is my name</p>
+                              
+                              <summary><Typography variant="subtitle1" color="primary" sx={{display:"inline-block"}}>
+                              Continue reading...
+                            </Typography></summary>
+                            </details>
+                          </CardContent>
+                        </Card>
+                      </CardActionArea>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        autoComplete="Pick-up Address"
-                        name="pickupAddress"
-                        required
-                        fullWidth
-                        id="pickupAddress"
-                        label="Pick-up Address"
-                        autoFocus
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="dropOffAddress"
-                        label="Drop-off Address"
-                        name="dropOffAddress"
-                        autoComplete="Drop-off Address"
-                      />
-                    </Grid>
-                  </Grid>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Add Parcel
-                  </Button>
-                </Box>
+                  ))}
+                </Grid>
               </Grid>
               <br />
               {/* Recent Orders */}
               <Grid item xs={12}>
-                <h2>My Parcels List</h2>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <h2>All Parcels</h2>
+                {/* <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <Orders />
-                </Paper>
+                </Paper> */}
               </Grid>
             </Grid>
             <CopyRights sx={{ pt: 4 }} />

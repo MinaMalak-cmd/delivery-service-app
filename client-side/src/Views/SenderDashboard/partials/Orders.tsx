@@ -59,32 +59,34 @@ const rows: [
 export default function Orders() {
   return (
     <React.Fragment>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Picked from</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Delivered by</TableCell>
-            <TableCell>Picked at</TableCell>
-            <TableCell>delivered at</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row._id} className={row.parcelStatus}>
-              <TableCell>{row.parcelName}</TableCell>
-              <TableCell>{row.pickupAddress}</TableCell>
-              <TableCell>{row.dropOffAddress}</TableCell>
-              <TableCell className="black-color">{row.parcelStatus}</TableCell>
-              <TableCell>{row.deliveredBy?.userName}</TableCell>
-              <TableCell>{row.pickupTime}</TableCell>
-              <TableCell>{row.dropOffTime}</TableCell>
+      {rows.length > 0 ? (
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Picked from</TableCell>
+              <TableCell>Ship To</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Delivered by</TableCell>
+              <TableCell>Picked at</TableCell>
+              <TableCell>delivered at</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {rows?.map((row) => (
+              <TableRow key={row._id} className={row.parcelStatus}>
+                <TableCell>{row.parcelName}</TableCell>
+                <TableCell>{row.pickupAddress}</TableCell>
+                <TableCell>{row.dropOffAddress}</TableCell>
+                <TableCell className="black-color">{row.parcelStatus}</TableCell>
+                <TableCell>{row.deliveredBy?.userName}</TableCell>
+                <TableCell>{row.pickupTime}</TableCell>
+                <TableCell>{row.dropOffTime}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ): <div>No Orders Found</div>}
     </React.Fragment>
   );
 }

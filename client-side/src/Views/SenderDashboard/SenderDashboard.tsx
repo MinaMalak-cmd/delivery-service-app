@@ -214,7 +214,7 @@ export default function Dashboard() {
               <br />
               {/* Recent Orders */}
               <Grid item xs={12}>
-                <h2>Parcels List</h2>
+                <h2>My Parcels List</h2>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <Orders />
                 </Paper>

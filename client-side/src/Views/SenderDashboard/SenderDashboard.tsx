@@ -1,223 +1,204 @@
-import * as React from "react";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiDrawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems } from "./partials/listItems";
-import Orders from "./partials/Orders";
-import CopyRights from "../../Components/CopyRights";
-import "./styles/SenderDashboard.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button/Button";
+import useSenderDashboard from "./useSenderDashboard";
+import {
+  Form,
+  Modal,
+  Toast,
+  ToastContainer,
+  Card,
+} from "react-bootstrap";
 
-const drawerWidth: number = 240;
+const SenderDashboard = () => {
+  const {
+    parcels,
+    setDeletedItem,
+    deletedItem,
+    deleteParcel,
+    showToast,
+    setShowToast,
+    validated,
+    handleSubmit,
+    handleInputChange,
+    addedItem,
+    mode, 
+    setMode,
+    resetHandler,
+    setAddedItem
+  } = useSenderDashboard();
 
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  "& .MuiDrawer-paper": {
-    position: "relative",
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: "border-box",
-    ...(!open && {
-      overflowX: "hidden",
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
-      },
-    }),
-  },
-}));
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
-
-export default function SenderDashboard() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      parcelName: data.get("parcelName"),
-      pickupAddress: data.get("pickupAddress"),
-      dropOffAddress: data.get("dropOffAddress"),
-    });
-  };
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: "24px", // keep right padding when drawer closed
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: "36px",
-                ...(open && { display: "none" }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              Sender Dashboard
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">
-            {mainListItems}
-          </List>
-        </Drawer>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: "100vh",
-            overflow: "auto",
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <h2>Add A new parcel</h2>
-                <Box
-                  component="form"
-                  noValidate
-                  onSubmit={handleSubmit}
-                  sx={{ mt: 2 }}
-                >
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="parcelName"
-                        label="Parcel Name"
-                        name="parcelName"
-                        autoComplete="Parcel Name"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        autoComplete="Pick-up Address"
-                        name="pickupAddress"
-                        required
-                        fullWidth
-                        id="pickupAddress"
-                        label="Pick-up Address"
-                        autoFocus
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="dropOffAddress"
-                        label="Drop-off Address"
-                        name="dropOffAddress"
-                        autoComplete="Drop-off Address"
-                      />
-                    </Grid>
-                  </Grid>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+    <>
+      <div className="container-fluid py-3 px-3">
+        <div className="row">
+          <div className="col-sm-11 m-auto">
+            <Card bg="info" text="dark" className="mb-2 ">
+              <Card.Header>
+                {(mode === "Update") ? "Update Parcel" : "Add Parcel"}
+              </Card.Header>
+              <Card.Body>
+                <Card.Title>
+                  {(mode === "Update") ? "Update Parcel" : "Add Parcel"}
+                </Card.Title>
+                <Card.Text>
+                  <Form
+                    autoComplete="off"
+                    noValidate
+                    validated={validated}
+                    onSubmit={handleSubmit}
                   >
-                    Add Parcel
-                  </Button>
-                </Box>
-              </Grid>
-              <br />
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <h2>My Parcels List</h2>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Orders />
-                </Paper>
-              </Grid>
-            </Grid>
-            <CopyRights sx={{ pt: 4 }} />
-          </Container>
-        </Box>
-      </Box>
-    </ThemeProvider>
+                    <Form.Group className="mb-3" controlId="parcel.ControlInput1">
+                      <Form.Label>Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your name"
+                        required
+                        onChange={(e: any) =>
+                          handleInputChange("name", e?.target.value)
+                        }
+                        value={addedItem.name}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Please Enter parcel name.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="parcel.ControlInput2">
+                      <Form.Label>Email address</Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter your email"
+                        onChange={(e: any) =>
+                          handleInputChange("email", e?.target.value)
+                        }
+                        value={addedItem.email}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="parcel.ControlInput3">
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Enter password"
+                        onChange={(e: any) =>
+                          handleInputChange("password", e?.target.value)
+                        }
+                        value={addedItem.password}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="parcel.ControlInput4">
+                      <Form.Label>Age</Form.Label>
+                      <Form.Control
+                        type="number"
+                        placeholder="Enter your Age"
+                        onChange={(e: any) =>
+                          handleInputChange("age", e?.target.value)
+                        }
+                        value={addedItem.age}
+                      />
+                    </Form.Group>
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                      onClick={handleSubmit}
+                    >
+                      {(mode === "Update") ? "Update Parcel" : "Add Parcel"}
+                    </button>
+                    {(mode === "Update") && 
+                      <button
+                        className="btn btn-dark mx-2"
+                        type="button"
+                        onClick={resetHandler}
+                      >
+                        Reset
+                      </button>
+                    }
+                  </Form>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </div>
+        </div>
+        <div className="row mt-2">
+          <div className="col-sm-11 m-auto">
+            <table className="table table-info table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Age</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {parcels?.map((parcel: any) => {
+                  return (
+                    <tr key={parcel.id}>
+                      <td>{parcel.id}</td>
+                      <td>{parcel.name}</td>
+                      <td>{parcel.email}</td>
+                      <td>{parcel.age}</td>
+                      <td>
+                        <div aria-label="parcel table actions" className="d-flex">
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => {setAddedItem(parcel); setMode("Update");}}
+                          >
+                            Update
+                          </button>
+                          <button
+                            className="btn btn-danger mx-2"
+                            onClick={() => setDeletedItem(parcel.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="row">
+          <Modal
+            show={deletedItem ? true : false}
+            onHide={() => setDeletedItem(NaN)}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Item</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to delete this item ?</Modal.Body>
+            <Modal.Footer>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setDeletedItem(NaN)}
+              >
+                Close
+              </button>
+              <button className="btn btn-primary" onClick={deleteParcel}>
+                Save Changes
+              </button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+        <div className="row">
+          <ToastContainer className="bottom-end">
+            <Toast
+              onClose={() => setShowToast(false)}
+              show={showToast}
+              delay={3000}
+              autohide
+              bg="primary"
+            >
+              <Toast.Body className="text-white">
+                your request done successfully
+              </Toast.Body>
+            </Toast>
+          </ToastContainer>
+        </div>
+       
+      </div>
+    </>
   );
-}
+};
+
+export default SenderDashboard;

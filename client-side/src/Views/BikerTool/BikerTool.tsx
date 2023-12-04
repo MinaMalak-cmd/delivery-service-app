@@ -3,6 +3,7 @@ import { Form, Modal, Toast, ToastContainer, Card } from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import Alert from "react-bootstrap/Alert";
 
 const BikerTool = () => {
   const {
@@ -18,7 +19,8 @@ const BikerTool = () => {
     resetHandler,
     setAddedItem,
     updateClickHandler,
-    statusesList
+    statusesList,
+    userName,
   } = useBikerTool();
 
   return (
@@ -104,7 +106,10 @@ const BikerTool = () => {
                             variant="primary"
                             title={addedItem.parcelStatus}
                             onSelect={(e: any) =>
-                              handleInputChange("parcelStatus", statusesList[+e])
+                              handleInputChange(
+                                "parcelStatus",
+                                statusesList[+e]
+                              )
                             }
                             defaultValue={addedItem.parcelStatus}
                           >
@@ -126,14 +131,14 @@ const BikerTool = () => {
                             >
                               delivered
                             </Dropdown.Item> */}
-                            {statusesList.map((status:string,idx:number) => (
+                            {statusesList.map((status: string, idx: number) => (
                               <Dropdown.Item
-                              eventKey={idx}
-                              key={idx}
-                              active={addedItem.parcelStatus === status}
-                            >
-                              {status.toUpperCase()}
-                            </Dropdown.Item>
+                                eventKey={idx}
+                                key={idx}
+                                active={addedItem.parcelStatus === status}
+                              >
+                                {status.toUpperCase()}
+                              </Dropdown.Item>
                             ))}
                           </DropdownButton>
                           <br />
@@ -201,20 +206,33 @@ const BikerTool = () => {
                           aria-label="parcel table actions"
                           className="d-flex"
                         >
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => updateClickHandler(parcel, "assign")}
-                          >
-                            Assign to me
-                          </button>
-                          <button
-                            className="btn btn-warning mx-2"
-                            onClick={() =>
-                              updateClickHandler(parcel, "update-status")
-                            }
-                          >
-                            Update status
-                          </button>
+                          {!parcel.deliveredBy?.userName ||
+                          userName === parcel.deliveredBy?.userName ? (
+                            <>
+                              <button
+                                className="btn btn-primary"
+                                onClick={() =>
+                                  updateClickHandler(parcel, "assign")
+                                }
+                              >
+                                Assign to me
+                              </button>
+                              <button
+                                className="btn btn-warning mx-2"
+                                onClick={() =>
+                                  updateClickHandler(parcel, "update-status")
+                                }
+                              >
+                                Update status
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <Alert  variant='danger' className="my-0  py-1">
+                                This parcel is assigned to another biker !
+                              </Alert>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>

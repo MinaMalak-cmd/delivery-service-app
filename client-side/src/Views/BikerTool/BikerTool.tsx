@@ -19,7 +19,8 @@ const BikerTool = () => {
     mode, 
     setMode,
     resetHandler,
-    setAddedItem
+    setAddedItem,
+    updateClickHandler
   } = useBikerTool();
 
   return (
@@ -81,10 +82,10 @@ const BikerTool = () => {
                       className="btn btn-danger"
                       type="button"
                       onClick={handleSubmit}
+                      disabled={!addedItem.parcelName || !addedItem.pickupTime || !addedItem.dropOffTime}
                     >
                       {(mode === "Update") ? "Assign Parcel" : "Update Parcel Status"}
                     </button>
-                    {/* {(mode === "Update") &&  */}
                       <button
                         className="btn btn-dark mx-2"
                         type="button"
@@ -92,7 +93,6 @@ const BikerTool = () => {
                       >
                         Reset
                       </button>
-                    {/* // } */}
                   </Form>
                 </Card.Text>
               </Card.Body>
@@ -130,7 +130,7 @@ const BikerTool = () => {
                         <div aria-label="parcel table actions" className="d-flex">
                           <button
                             className="btn btn-primary"
-                            onClick={() => {setAddedItem(parcel); setMode("Update");}}
+                            onClick={() => updateClickHandler(parcel)}
                           >
                             Assign to me
                           </button>

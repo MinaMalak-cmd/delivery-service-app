@@ -12,7 +12,7 @@ const useBikerTool = () => {
       },
       parcelName: "eeee",
       pickupAddress: "Cairo",
-      dropOffAddress: "Gize",
+      dropOffAddress: "Giza",
       parcelStatus: "delivered",
       createdAt: "2023-12-02T10:28:38.863Z",
       updatedAt: "2023-12-02T14:40:32.258Z",
@@ -33,7 +33,7 @@ const useBikerTool = () => {
       },
       parcelName: "eeee",
       pickupAddress: "Cairo",
-      dropOffAddress: "Gize",
+      dropOffAddress: "Giza",
       parcelStatus: "delivered",
       createdAt: "2023-12-02T10:28:38.863Z",
       updatedAt: "2023-12-02T14:40:32.258Z",
@@ -54,7 +54,7 @@ const useBikerTool = () => {
       },
       parcelName: "eeee",
       pickupAddress: "Cairo",
-      dropOffAddress: "Gize",
+      dropOffAddress: "Giza",
       parcelStatus: "delivered",
       createdAt: "2023-12-02T10:28:38.863Z",
       updatedAt: "2023-12-02T14:40:32.258Z",
@@ -106,6 +106,10 @@ const useBikerTool = () => {
       getParcels();
     }
   };
+  const updateClickHandler = (item: any) => {
+    setAddedItem(item); 
+    setMode("Update");
+  }
   const updateParcel = async () => {
     if (addedItem.parcelName) {
       console.log("🚀 ~ file: useBikerTool.ts:124 ~ updateParcel ~ addedItem:", addedItem)
@@ -115,6 +119,7 @@ const useBikerTool = () => {
       // }
       // resetHandler();
       // getParcels();
+      
     }
   };
   const handleSubmit = () => {
@@ -148,6 +153,7 @@ const useBikerTool = () => {
     setMode,
     resetHandler,
     setAddedItem,
+    updateClickHandler
   };
 };
 

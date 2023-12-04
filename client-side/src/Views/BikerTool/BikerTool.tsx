@@ -19,7 +19,13 @@ import CardActionArea from "@mui/material/CardActionArea";
 import Card from "@mui/material/Card/Card";
 import CardContent from "@mui/material/CardContent/CardContent";
 import { formatTimestamp } from "../../Utils/helperFunctions";
-
+import Button from "@mui/material/Button";
+import CardActions from "@mui/material/CardActions";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
@@ -80,67 +86,67 @@ export default function BikerTool() {
   };
   const myParcels = [
     {
-      "_id": "656b06d60b9cd6040e60ec28",
-      "createdBy": {
-          "_id": "64a2835d0d891295bcb000c8",
-          "userName": "mina elan",
-          "role": "user"
+      _id: "656b06d60b9cd6040e60ec28",
+      createdBy: {
+        _id: "64a2835d0d891295bcb000c8",
+        userName: "mina elan",
+        role: "user",
       },
-      "parcelName": "eeee",
-      "pickupAddress": "Cairo",
-      "dropOffAddress": "Gize",
-      "parcelStatus": "delivered",
-      "createdAt": "2023-12-02T10:28:38.863Z",
-      "updatedAt": "2023-12-02T14:40:32.258Z",
-      "deliveredBy": {
-          "_id": "74a283720d891295bcb030cc",
-          "userName": "ahmed salah",
-          "role": "biker"
+      parcelName: "eeee",
+      pickupAddress: "Cairo",
+      dropOffAddress: "Gize",
+      parcelStatus: "delivered",
+      createdAt: "2023-12-02T10:28:38.863Z",
+      updatedAt: "2023-12-02T14:40:32.258Z",
+      deliveredBy: {
+        _id: "74a283720d891295bcb030cc",
+        userName: "ahmed salah",
+        role: "biker",
       },
-      "dropOffTime": "4-12-2023",
-      "pickupTime": "3-12-2023"
+      dropOffTime: "4-12-2023",
+      pickupTime: "3-12-2023",
     },
     {
-      "_id": "656b06d60b9cd6040e60ec28",
-      "createdBy": {
-          "_id": "64a2835d0d891295bcb000c8",
-          "userName": "mina elan",
-          "role": "user"
+      _id: "656b06d60b9cd6040e60ec28",
+      createdBy: {
+        _id: "64a2835d0d891295bcb000c8",
+        userName: "mina elan",
+        role: "user",
       },
-      "parcelName": "eeee",
-      "pickupAddress": "Cairo",
-      "dropOffAddress": "Gize",
-      "parcelStatus": "delivered",
-      "createdAt": "2023-12-02T10:28:38.863Z",
-      "updatedAt": "2023-12-02T14:40:32.258Z",
-      "deliveredBy": {
-          "_id": "74a283720d891295bcb030cc",
-          "userName": "ahmed salah",
-          "role": "biker"
+      parcelName: "eeee",
+      pickupAddress: "Cairo",
+      dropOffAddress: "Gize",
+      parcelStatus: "delivered",
+      createdAt: "2023-12-02T10:28:38.863Z",
+      updatedAt: "2023-12-02T14:40:32.258Z",
+      deliveredBy: {
+        _id: "74a283720d891295bcb030cc",
+        userName: "ahmed salah",
+        role: "biker",
       },
-      "dropOffTime": "4-12-2023",
-      "pickupTime": "3-12-2023"
+      dropOffTime: "4-12-2023",
+      pickupTime: "3-12-2023",
     },
     {
-      "_id": "656b06d60b9cd6040e60ec28",
-      "createdBy": {
-          "_id": "64a2835d0d891295bcb000c8",
-          "userName": "mina elan",
-          "role": "user"
+      _id: "656b06d60b9cd6040e60ec28",
+      createdBy: {
+        _id: "64a2835d0d891295bcb000c8",
+        userName: "mina elan",
+        role: "user",
       },
-      "parcelName": "eeee",
-      "pickupAddress": "Cairo",
-      "dropOffAddress": "Gize",
-      "parcelStatus": "delivered",
-      "createdAt": "2023-12-02T10:28:38.863Z",
-      "updatedAt": "2023-12-02T14:40:32.258Z",
-      "deliveredBy": {
-          "_id": "74a283720d891295bcb030cc",
-          "userName": "ahmed salah",
-          "role": "biker"
+      parcelName: "eeee",
+      pickupAddress: "Cairo",
+      dropOffAddress: "Gize",
+      parcelStatus: "delivered",
+      createdAt: "2023-12-02T10:28:38.863Z",
+      updatedAt: "2023-12-02T14:40:32.258Z",
+      deliveredBy: {
+        _id: "74a283720d891295bcb030cc",
+        userName: "ahmed salah",
+        role: "biker",
       },
-      "dropOffTime": "4-12-2023",
-      "pickupTime": "3-12-2023"
+      dropOffTime: "4-12-2023",
+      pickupTime: "3-12-2023",
     },
   ];
   // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -218,11 +224,11 @@ export default function BikerTool() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <h2>My Parcels</h2>
-                <Grid container spacing={4} sx={{mt:4}}>
+                <Grid container spacing={4} sx={{ mt: 4 }}>
                   {myParcels.map((parcel, idx) => (
                     <Grid item xs={12} md={4} key={idx}>
                       <CardActionArea component="a" href="#">
-                        <Card sx={{ display: "flex" }}>
+                        <Card>
                           <CardContent sx={{ flex: 1 }}>
                             <Typography component="h2" variant="h5">
                               {parcel.parcelName}
@@ -233,20 +239,68 @@ export default function BikerTool() {
                             >
                               Created At {formatTimestamp(parcel.createdAt)}
                             </Typography>
-                            <Typography variant="subtitle1" paragraph>
-                              {parcel?.createdBy?.userName}
-                            </Typography>
+                            {/* <Typography variant="subtitle1" paragraph>
+                              Created By {parcel?.createdBy?.userName}
+                            </Typography> */}
                             {/* <Typography variant="subtitle1" color="primary">
                               Continue reading...
                             </Typography> */}
-                            <details>
-                              <p>Here is my name</p>
-                              
-                              <summary><Typography variant="subtitle1" color="primary" sx={{display:"inline-block"}}>
-                              Continue reading...
-                            </Typography></summary>
-                            </details>
                           </CardContent>
+                          <CardActions sx={{ display: "block" }}>
+                            <Button size="small">
+                              <Accordion>
+                                <AccordionSummary
+                                  expandIcon={<ExpandMoreIcon />}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Typography>View more details</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                  <Typography>
+                                    <div>
+                                      <span>Created By: </span>
+                                      <span>{parcel?.createdBy?.userName}</span>
+                                    </div>
+                                    <div>
+                                      <span>Pickup Address: </span>
+                                      <span>{parcel.pickupAddress}</span>
+                                    </div>
+                                    <div>
+                                      <span>Dropoff Address: </span>
+                                      <span>{parcel.dropOffAddress}</span>
+                                    </div>
+                                    <div>
+                                      <span>Pickup Time: </span>
+                                      <span>{parcel.pickupTime}</span>
+                                    </div>
+                                    <div>
+                                      <span>Dropoff Time: </span>
+                                      <span>{parcel.dropOffTime}</span>
+                                    </div>
+                                  </Typography>
+                                </AccordionDetails>
+                              </Accordion>
+                            </Button>
+                            <Button sx={{ marginLeft: "0 !important" }}>
+                              <Accordion>
+                                <AccordionSummary
+                                  expandIcon={<ExpandMoreIcon />}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Typography>Update Status</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                  <Typography>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit. Suspendisse malesuada lacus
+                                    ex, sit amet blandit leo lobortis eget.
+                                  </Typography>
+                                </AccordionDetails>
+                              </Accordion>
+                            </Button>
+                          </CardActions>
                         </Card>
                       </CardActionArea>
                     </Grid>

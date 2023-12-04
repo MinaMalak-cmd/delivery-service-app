@@ -82,9 +82,9 @@ const BikerTool = () => {
                       type="button"
                       onClick={handleSubmit}
                     >
-                      {(mode === "Update") ? "Update Parcel" : "Add Parcel"}
+                      {(mode === "Update") ? "Assign Parcel" : "Update Parcel Status"}
                     </button>
-                    {(mode === "Update") && 
+                    {/* {(mode === "Update") &&  */}
                       <button
                         className="btn btn-dark mx-2"
                         type="button"
@@ -92,7 +92,7 @@ const BikerTool = () => {
                       >
                         Reset
                       </button>
-                    }
+                    {/* // } */}
                   </Form>
                 </Card.Text>
               </Card.Body>

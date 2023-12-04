@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { deleteRequest, get, post, update } from "../../Services/httpMethods";
 
 const useSenderDashboard = () => {
-    const [parcels, setParcels] = useState([
+    const tempParcels = [
         {
           _id: "656b06d60b9cd6040e60ec28",
           createdBy: {
@@ -16,13 +16,13 @@ const useSenderDashboard = () => {
           parcelStatus: "delivered",
           createdAt: "2023-12-02T10:28:38.863Z",
           updatedAt: "2023-12-02T14:40:32.258Z",
-          deliveredBy: {
-            _id: "74a283720d891295bcb030cc",
-            userName: "ahmed salah",
-            role: "biker",
-          },
-          dropOffTime: "4-12-2023",
-          pickupTime: "3-12-2023",
+        //   deliveredBy: {
+        //     _id: "74a283720d891295bcb030cc",
+        //     userName: "ahmed salah",
+        //     role: "biker",
+        //   },
+        //   dropOffTime: "4-12-2023",
+        //   pickupTime: "3-12-2023",
         },
         {
           _id: "656b06d60b9cd6040e60ec28",
@@ -66,17 +66,16 @@ const useSenderDashboard = () => {
           dropOffTime: "4-12-2023",
           pickupTime: "3-12-2023",
         },
-      ]);
+      ]
+    const [parcels, setParcels] = useState(tempParcels);
     const [deletedItem, setDeletedItem] = useState(NaN);
     const [showToast, setShowToast] = useState(false);
     const [validated, setValidated] = useState(false);
     const [mode, setMode] = useState("Add");
     const [addedItem, setAddedItem] = useState({
-        id: 0,
-        name: "",
-        email: "",
-        password: "",
-        age:NaN
+        parcelName: "",
+        pickupAddress: "",
+        dropOffAddress: ""
     });
     useEffect(() => {
         getParcels();
@@ -93,7 +92,8 @@ const useSenderDashboard = () => {
     }
     const getParcels = async() =>{
         const response = await get("/parcel");
-        setParcels(response?.data.result);
+        // setParcels(response?.data.result);
+        setParcels(tempParcels);
     }
     const deleteParcel = async() =>{
         const response = await deleteRequest(`/parcel/${deletedItem}`);
@@ -104,7 +104,8 @@ const useSenderDashboard = () => {
         getParcels();
     }
     const addParcel = async() =>{
-        if(addedItem.name){
+        if(addedItem.parcelName){
+            console.log("🚀 ~ file: useSenderDashboard.ts:108 ~ addParcel ~ addedItem:", addedItem)
             const response = await post("/parcel/signup", addedItem);
             if(response){
                 setShowToast(true);
@@ -114,13 +115,13 @@ const useSenderDashboard = () => {
         }
     }
     const updateParcel = async() =>{
-        if(addedItem.name){
-            const response = await update(`/parcel/${addedItem.id}`, addedItem);
-            if(response){
-                setShowToast(true);
-            }
-            resetHandler();
-            getParcels();
+        if(addedItem.parcelName){
+            // const response = await update(`/parcel/${addedItem.id}`, addedItem);
+            // if(response){
+            //     setShowToast(true);
+            // }
+            // resetHandler();
+            // getParcels();
         }
     }
     const handleSubmit = () => {
@@ -134,11 +135,9 @@ const useSenderDashboard = () => {
     };
     const resetHandler = () => {
         setAddedItem({
-            id: 0,
-            name: "",
-            email: "",
-            password: "",
-            age:NaN
+            parcelName: "",
+            pickupAddress: "",
+            dropOffAddress: ""
         });
         setMode("Add");
     }

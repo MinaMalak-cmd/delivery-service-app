@@ -77,7 +77,10 @@ const useBikerTool = () => {
     dropOffAddress: "",
     dropOffTime: "",
     pickupTime: "",
+    parcelStatus:"",
+    _id:""
   });
+  const [statusesList, setStatusesList] = useState(['pending', 'picked', 'delivered']);
   useEffect(() => {
     getParcels();
   }, []);
@@ -96,8 +99,8 @@ const useBikerTool = () => {
     // setParcels(response?.data.result);
     setParcels(tempParcels);
   };
-  const addParcel = async () => {
-    if (addedItem.parcelName) {
+  const updateParcelStatus = async () => {
+    if (addedItem.parcelName && addedItem.parcelStatus) {
       const response = await post("/parcel/signup", addedItem);
       if (response) {
         setShowToast(true);
@@ -106,13 +109,12 @@ const useBikerTool = () => {
       getParcels();
     }
   };
-  const updateClickHandler = (item: any) => {
+  const updateClickHandler = (item: any, type:string) => {
     setAddedItem(item); 
-    setMode("Update");
+    setMode(type);
   }
   const updateParcel = async () => {
     if (addedItem.parcelName) {
-      console.log("🚀 ~ file: useBikerTool.ts:124 ~ updateParcel ~ addedItem:", addedItem)
       // const response = await update(`/parcel/${addedItem.id}`, addedItem);
       // if(response){
       //     setShowToast(true);
@@ -123,10 +125,10 @@ const useBikerTool = () => {
     }
   };
   const handleSubmit = () => {
-    if (mode === "Update") {
+    if (mode === "assign") {
       updateParcel();
     } else {
-      addParcel();
+      updateParcelStatus();
     }
     setValidated(true);
   };
@@ -137,6 +139,8 @@ const useBikerTool = () => {
       dropOffAddress: "",
       dropOffTime: "",
       pickupTime: "",
+      parcelStatus:"",
+      _id:""
     });
     setMode("Add");
   };
@@ -153,7 +157,8 @@ const useBikerTool = () => {
     setMode,
     resetHandler,
     setAddedItem,
-    updateClickHandler
+    updateClickHandler,
+    statusesList
   };
 };
 

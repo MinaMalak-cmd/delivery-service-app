@@ -4,6 +4,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Alert from "react-bootstrap/Alert";
+import { IParcel } from "../../Utils/interfaces";
 
 const BikerTool = () => {
   const {
@@ -21,6 +22,7 @@ const BikerTool = () => {
     updateClickHandler,
     statusesList,
     userName,
+    responseMessage
   } = useBikerTool();
 
   return (
@@ -161,6 +163,7 @@ const BikerTool = () => {
               <thead>
                 <tr>
                   <th>Parcel Name</th>
+                  <th className="text-warning">Created by</th>
                   <th>Pickup Address</th>
                   <th>Dropoff Address</th>
                   <th>Parcel Status</th>
@@ -171,18 +174,19 @@ const BikerTool = () => {
                 </tr>
               </thead>
               <tbody>
-                {parcels?.map((parcel: any) => {
+                {parcels?.map((parcel: IParcel) => {
                   return (
                     <tr key={parcel._id}>
                       <td>{parcel.parcelName}</td>
+                      <td>{parcel.createdBy.userName}</td>
                       <td>{parcel.pickupAddress}</td>
                       <td>{parcel.dropOffAddress}</td>
                       <td>{parcel.parcelStatus}</td>
                       <td>
                         {parcel.deliveredBy?.userName || "not picked yet"}
                       </td>
-                      <td>{parcel?.pickupTime || "--"}</td>
-                      <td>{parcel?.dropOffTime || "--"}</td>
+                      <td>{parcel?.pickupTime ? parcel.pickupTime.split("-").reverse().join("-") : "--"}</td>
+                      <td>{parcel?.dropOffTime ? parcel.dropOffTime.split("-").reverse().join("-") : "--"}</td>
                       <td>
                         <div
                           aria-label="parcel table actions"
@@ -256,7 +260,7 @@ const BikerTool = () => {
               bg="primary"
             >
               <Toast.Body className="text-white">
-                your request done successfully
+                {responseMessage}
               </Toast.Body>
             </Toast>
           </ToastContainer>

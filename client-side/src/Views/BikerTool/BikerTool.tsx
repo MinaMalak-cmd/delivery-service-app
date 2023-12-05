@@ -197,7 +197,7 @@ const BikerTool = () => {
                                   updateClickHandler(parcel, "assign")
                                 }
                               >
-                                Assign to me
+                                {userName === parcel.deliveredBy?.userName ? 'Update my parcel' :'Assign to me'}
                               </button>
                               <button
                                 className="btn btn-warning mx-2"

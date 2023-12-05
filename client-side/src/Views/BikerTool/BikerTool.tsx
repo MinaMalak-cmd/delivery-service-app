@@ -1,11 +1,12 @@
 import useBikerTool from "./useBikerTool";
-import { Form, Toast, ToastContainer, Card } from "react-bootstrap";
+import { Form, Card } from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Alert from "react-bootstrap/Alert";
 import { IParcel } from "../../Utils/interfaces";
 import { reformatDate } from "../../Utils/dateFormat";
+import ToastComponent from "../../Components/Toast/ToastComponent";
 
 const BikerTool = () => {
   const {
@@ -21,7 +22,7 @@ const BikerTool = () => {
     updateClickHandler,
     statusesList,
     userName,
-    responseMessage
+    responseMessage,
   } = useBikerTool();
 
   return (
@@ -200,7 +201,9 @@ const BikerTool = () => {
                                   updateClickHandler(parcel, "assign")
                                 }
                               >
-                                {userName === parcel.deliveredBy?.userName ? 'Update my parcel' :'Assign to me'}
+                                {userName === parcel.deliveredBy?.userName
+                                  ? "Update my parcel"
+                                  : "Assign to me"}
                               </button>
                               <button
                                 className="btn btn-warning mx-2"
@@ -213,7 +216,7 @@ const BikerTool = () => {
                             </>
                           ) : (
                             <>
-                              <Alert  variant='danger' className="my-0  py-1">
+                              <Alert variant="danger" className="my-0  py-1">
                                 This parcel is assigned to another biker !
                               </Alert>
                             </>
@@ -227,21 +230,11 @@ const BikerTool = () => {
             </table>
           </div>
         </div>
-        <div className="row">
-          <ToastContainer className="bottom-end">
-            <Toast
-              onClose={() => setShowToast(false)}
-              show={showToast}
-              delay={3000}
-              autohide
-              bg="warning"
-            >
-              <Toast.Body className="text-white">
-                {responseMessage}
-              </Toast.Body>
-            </Toast>
-          </ToastContainer>
-        </div>
+        <ToastComponent
+          showToast={showToast}
+          onCloseHandler={() => setShowToast(false)}
+          responseMessage={responseMessage}
+        />
       </div>
     </>
   );

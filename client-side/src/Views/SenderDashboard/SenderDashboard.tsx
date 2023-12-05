@@ -1,7 +1,8 @@
+import ToastComponent from "../../Components/Toast/ToastComponent";
 import { reformatDate } from "../../Utils/dateFormat";
 import { IParcel } from "../../Utils/interfaces";
 import useSenderDashboard from "./useSenderDashboard";
-import { Form, Toast, ToastContainer, Card } from "react-bootstrap";
+import { Form, Card } from "react-bootstrap";
 
 const SenderDashboard = () => {
   const {
@@ -136,19 +137,11 @@ const SenderDashboard = () => {
             </table>
           </div>
         </div>
-        <div className="row">
-          <ToastContainer className="bottom-end">
-            <Toast
-              onClose={() => setShowToast(false)}
-              show={showToast}
-              delay={3000}
-              autohide
-              bg="warning"
-            >
-              <Toast.Body className="text-white">{responseMessage}</Toast.Body>
-            </Toast>
-          </ToastContainer>
-        </div>
+        <ToastComponent
+          showToast={showToast}
+          onCloseHandler={() => setShowToast(false)}
+          responseMessage={responseMessage}
+        />
       </div>
     </>
   );

@@ -1,11 +1,6 @@
+import ToastComponent from "../../Components/Toast/ToastComponent";
 import useLogin from "./useLogin";
-import {
-  Form,
-  Modal,
-  Toast,
-  ToastContainer,
-  Card,
-} from "react-bootstrap";
+import { Form, Card } from "react-bootstrap";
 
 const Login = () => {
   const {
@@ -19,13 +14,11 @@ const Login = () => {
 
   return (
     <>
-      <div className="container-fluid py-3 px-3 login-wrapper" >
+      <div className="container-fluid py-3 px-3 login-wrapper">
         <div className="row">
           <div className="col-sm-6 m-auto">
             <Card bg="info" text="dark" className="mb-2 ">
-              <Card.Header>
-                Login
-              </Card.Header>
+              <Card.Header>Login</Card.Header>
               <Card.Body>
                 <Card.Text>
                   <Form
@@ -65,7 +58,7 @@ const Login = () => {
                       type="button"
                       onClick={handleLogin}
                     >
-                     Login
+                      Login
                     </button>
                   </Form>
                 </Card.Text>
@@ -73,22 +66,11 @@ const Login = () => {
             </Card>
           </div>
         </div>
-        <div className="row">
-          <ToastContainer className="bottom-end">
-            <Toast
-              onClose={() => setShowToast(false)}
-              show={showToast}
-              delay={3000}
-              autohide
-              bg="primary"
-            >
-              <Toast.Body className="text-white">
-                your request done successfully
-              </Toast.Body>
-            </Toast>
-          </ToastContainer>
-        </div>
-       
+        <ToastComponent
+          showToast={showToast}
+          onCloseHandler={() => setShowToast(false)}
+          responseMessage="your request done successfully"
+        />
       </div>
     </>
   );

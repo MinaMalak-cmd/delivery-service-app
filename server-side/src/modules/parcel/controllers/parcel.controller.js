@@ -4,8 +4,23 @@ import { asyncHandler, SuccessResponse } from "../../../utils/handlers.js";
 import parcelModel from "../models/parcel.model.js";
 import { parcelStatuses } from "../../../utils/constants.js";
 
+const fetchParcels = async (additionalConditions = {}) => {
+  return await parcelModel
+    .find(additionalConditions)
+    .select("-__v")
+    .populate([
+      {
+        path: "deliveredBy",
+        select: "userName role",
+      },
+      {
+        path: "createdBy",
+        select: "userName role",
+      },
+    ]);
+};
 export const getAllParcels = asyncHandler(async (req, res, next) => {
-  const parcels = await parcelModel.find();
+  const parcels = await fetchParcels();
   return parcels
     ? SuccessResponse(
         res,
@@ -21,21 +36,10 @@ export const getAllParcels = asyncHandler(async (req, res, next) => {
 
 export const getAllUserAssignedParcels = asyncHandler(
   async (req, res, next) => {
-    const parcels = await parcelModel
-      .find({
-        $or: [{ deliveredBy: req.user._id }, { createdBy: req.user._id }],
-      })
-      .select("-__v")
-      .populate([
-        {
-          path: "deliveredBy",
-          select: "userName role",
-        },
-        {
-          path: "createdBy",
-          select: "userName role",
-        },
-      ]);
+    const parcels = await fetchParcels({
+      $or: [{ deliveredBy: req.user._id }, { createdBy: req.user._id }],
+    });
+
     return parcels
       ? SuccessResponse(
           res,

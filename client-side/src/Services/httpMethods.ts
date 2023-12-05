@@ -1,7 +1,4 @@
 import { BASE_API } from "./config";
-const headers = {
-  "Content-Type": "application/json",
-};
 
 const setRequestConfigurations = (timeout = 2000) =>{
   return {
@@ -41,6 +38,15 @@ const update = async (url: string, body? : any, timeout = 2000) => {
     console.log("🚀 ~ file: axiosConfig.ts:8 ~ error:", error);
   }
 };
+const patch = async (url: string, body? : any, timeout = 2000) => {
+  try {
+    const options = setRequestConfigurations();
+    const response = await BASE_API.patch(url, body ,options);
+    return response;
+  } catch (error: any) {
+    console.log("🚀 ~ file: axiosConfig.ts:8 ~ error:", error);
+  }
+};
 const deleteRequest = async (url: string, timeout = 2000) => {
   try {
     const options = setRequestConfigurations();
@@ -51,7 +57,7 @@ const deleteRequest = async (url: string, timeout = 2000) => {
   }
 };
 
-export { get, post, deleteRequest, update };
+export { get, post, deleteRequest, update, patch };
 
 
 // axios.interceptors.request.use(

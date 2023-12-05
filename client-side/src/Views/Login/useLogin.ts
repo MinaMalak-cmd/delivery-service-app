@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteRequest, get, post, update } from "../../Services/httpMethods";
+import { post } from "../../Services/httpMethods";
 
 const useLogin = () => {
     const [showToast, setShowToast] = useState(false);

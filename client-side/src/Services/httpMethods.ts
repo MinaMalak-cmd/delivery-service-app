@@ -3,13 +3,21 @@ const headers = {
   "Content-Type": "application/json",
 };
 
+const setRequestConfigurations = (timeout = 2000) =>{
+  return {
+    headers:{
+      "Content-Type": "application/json",
+      "Authorization":`HDHJkejk__${localStorage.getItem('access-token')}`
+    },
+    timeout: timeout,
+    responseType: 'json' as const,
+  };
+} 
+
 const get = async (url: string, timeout = 2000) => {
   try {
-    const response = await BASE_API.get(url, {
-      headers:headers,
-      timeout: timeout,
-      responseType: 'json',
-    });
+    const options = setRequestConfigurations();
+    const response = await BASE_API.get(url, options);
     return response;
   } catch (error: any) {
     console.log("🚀 ~ file: axiosConfig.ts:8 ~ error:", error);
@@ -17,11 +25,8 @@ const get = async (url: string, timeout = 2000) => {
 };
 const post = async (url: string, body? : any, timeout = 2000) => {
   try {
-    const response = await BASE_API.post(url, body ,{
-      headers:headers,
-      timeout: timeout,
-      responseType: 'json',
-    });
+    const options = setRequestConfigurations();
+    const response = await BASE_API.post(url, body ,options);
     return response;
   } catch (error: any) {
     console.log("🚀 ~ file: axiosConfig.ts:8 ~ error:", error);
@@ -29,11 +34,8 @@ const post = async (url: string, body? : any, timeout = 2000) => {
 };
 const update = async (url: string, body? : any, timeout = 2000) => {
   try {
-    const response = await BASE_API.put(url, body ,{
-      headers:headers,
-      timeout: timeout,
-      responseType: 'json',
-    });
+    const options = setRequestConfigurations();
+    const response = await BASE_API.put(url, body ,options);
     return response;
   } catch (error: any) {
     console.log("🚀 ~ file: axiosConfig.ts:8 ~ error:", error);
@@ -41,11 +43,8 @@ const update = async (url: string, body? : any, timeout = 2000) => {
 };
 const deleteRequest = async (url: string, timeout = 2000) => {
   try {
-    const response = await BASE_API.delete(url, {
-      headers:headers,
-      timeout: timeout,
-      responseType: 'json',
-    });
+    const options = setRequestConfigurations();
+    const response = await BASE_API.delete(url, options);
     return response;
   } catch (error: any) {
     console.log("🚀 ~ file: axiosConfig.ts:8 ~ error:", error);

@@ -5,7 +5,6 @@ const useBikerTool = () => {
   const userDetails = JSON.parse(localStorage.getItem("user-details")!) || {};
   const userName = userDetails?.userName;
   const [parcels, setParcels] = useState([]);
-  console.log("🚀 ~ file: useBikerTool.ts:8 ~ useBikerTool ~ parcels:", parcels)
   const [showToast, setShowToast] = useState(false);
   const [validated, setValidated] = useState(false);
   const [mode, setMode] = useState("Add");
@@ -18,9 +17,10 @@ const useBikerTool = () => {
     parcelStatus:"",
     _id:""
   });
-  const [statusesList, setStatusesList] = useState(['pending', 'picked', 'delivered']);
+  const [statusesList, setStatusesList] = useState([]);
   useEffect(() => {
     getParcels();
+    getStatusesList();
   }, []);
   useEffect(() => {
     setValidated(false);
@@ -40,6 +40,15 @@ const useBikerTool = () => {
       setParcels(response?.data?.parcels);
     }else{
       setParcels([]);
+    }
+  };
+  const getStatusesList = async () => {
+    const response = await get("/parcel/get-statuses");
+    if(response?.data?.message === "statuses retrieved successfully"){
+      setStatusesList(response?.data?.statuses);
+      console.log("🚀 ~ file: useBikerTool.ts:49 ~ getStatusesList ~ response?.data?.statuses:", response?.data?.statuses)
+    }else{
+      setStatusesList([]);
     }
   };
   const updateParcelStatus = async () => {

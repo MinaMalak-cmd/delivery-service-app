@@ -2,73 +2,10 @@ import { useEffect, useState } from "react";
 import { get, post } from "../../Services/httpMethods";
 
 const useBikerTool = () => {
-  const tempParcels = [
-    {
-      _id: "656b06d60b9cd6040e60ec28",
-      createdBy: {
-        _id: "64a2835d0d891295bcb000c8",
-        userName: "mina elan",
-        role: "user",
-      },
-      parcelName: "eeee",
-      pickupAddress: "Cairo",
-      dropOffAddress: "Giza",
-      parcelStatus: "delivered",
-      createdAt: "2023-12-02T10:28:38.863Z",
-      updatedAt: "2023-12-02T14:40:32.258Z",
-      //   deliveredBy: {
-      //     _id: "74a283720d891295bcb030cc",
-      //     userName: "ahmed salah",
-      //     role: "biker",
-      //   },
-      //   dropOffTime: "4-12-2023",
-      //   pickupTime: "3-12-2023",
-    },
-    {
-      _id: "656b06d60b9cd6040e60ec28",
-      createdBy: {
-        _id: "64a2835d0d891295bcb000c8",
-        userName: "mina elan",
-        role: "user",
-      },
-      parcelName: "eeee",
-      pickupAddress: "Cairo",
-      dropOffAddress: "Giza",
-      parcelStatus: "delivered",
-      createdAt: "2023-12-02T10:28:38.863Z",
-      updatedAt: "2023-12-02T14:40:32.258Z",
-      deliveredBy: {
-        _id: "74a283720d891295bcb030cc",
-        userName: "ahmed salah",
-        role: "biker",
-      },
-      dropOffTime: "4-12-2023",
-      pickupTime: "3-12-2023",
-    },
-    {
-      _id: "656b06d60b9cd6040e60ec28",
-      createdBy: {
-        _id: "64a2835d0d891295bcb000c8",
-        userName: "mina elan",
-        role: "user",
-      },
-      parcelName: "eeee",
-      pickupAddress: "Cairo",
-      dropOffAddress: "Giza",
-      parcelStatus: "delivered",
-      createdAt: "2023-12-02T10:28:38.863Z",
-      updatedAt: "2023-12-02T14:40:32.258Z",
-      deliveredBy: {
-        _id: "74a283720d891295bcb030cc",
-        userName: "ahmed salah",
-        role: "biker",
-      },
-      dropOffTime: "4-12-2023",
-      pickupTime: "3-12-2023",
-    },
-  ];
-  const userName = "dfff";
-  const [parcels, setParcels] = useState(tempParcels);
+  const userDetails = JSON.parse(localStorage.getItem("user-details")!) || {};
+  const userName = userDetails?.userName;
+  const [parcels, setParcels] = useState([]);
+  console.log("🚀 ~ file: useBikerTool.ts:8 ~ useBikerTool ~ parcels:", parcels)
   const [showToast, setShowToast] = useState(false);
   const [validated, setValidated] = useState(false);
   const [mode, setMode] = useState("Add");
@@ -96,9 +33,14 @@ const useBikerTool = () => {
     });
   };
   const getParcels = async () => {
+    // const response = await get("/parcel/get-all-user-assigned-parcels");
     const response = await get("/parcel");
-    // setParcels(response?.data.result);
-    setParcels(tempParcels);
+    console.log("🚀 ~ file: useBikerTool.ts:37 ~ getParcels ~ response:", response)
+    if(response?.data?.message === "parcels retrieved successfully"){
+      setParcels(response?.data?.parcels);
+    }else{
+      setParcels([]);
+    }
   };
   const updateParcelStatus = async () => {
     if (addedItem.parcelName && addedItem.parcelStatus) {
@@ -120,8 +62,8 @@ const useBikerTool = () => {
       // if(response){
       //     setShowToast(true);
       // }
-      // resetHandler();
-      // getParcels();
+      resetHandler();
+      getParcels();
       
     }
   };

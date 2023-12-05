@@ -113,24 +113,6 @@ const BikerTool = () => {
                             }
                             defaultValue={addedItem.parcelStatus}
                           >
-                            {/* <Dropdown.Item
-                              eventKey="1"
-                              active={addedItem.parcelStatus === "pending"}
-                            >
-                              pending
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              eventKey="2"
-                              active={addedItem.parcelStatus === "picked"}
-                            >
-                              picked
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              eventKey="3"
-                              active={addedItem.parcelStatus === "delivered"}
-                            >
-                              delivered
-                            </Dropdown.Item> */}
                             {statusesList.map((status: string, idx: number) => (
                               <Dropdown.Item
                                 eventKey={idx}

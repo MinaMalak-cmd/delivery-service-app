@@ -1,5 +1,5 @@
 import useBikerTool from "./useBikerTool";
-import { Form, Modal, Toast, ToastContainer, Card } from "react-bootstrap";
+import { Form, Toast, ToastContainer, Card } from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -16,9 +16,7 @@ const BikerTool = () => {
     handleInputChange,
     addedItem,
     mode,
-    setMode,
     resetHandler,
-    setAddedItem,
     updateClickHandler,
     statusesList,
     userName,
@@ -163,7 +161,7 @@ const BikerTool = () => {
               <thead>
                 <tr>
                   <th>Parcel Name</th>
-                  <th className="text-warning">Created by</th>
+                  <th className="text-danger">Created by</th>
                   <th>Pickup Address</th>
                   <th>Dropoff Address</th>
                   <th>Parcel Status</th>

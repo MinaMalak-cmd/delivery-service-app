@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { get, post, update } from "../../Services/httpMethods";
+import { get, patch, update } from "../../Services/httpMethods";
 import { IParcel } from "../../Utils/interfaces";
-import { AxiosError } from "axios";
+import { retrieveUserDetails } from "../../Utils/localStorageGetters";
 
 const useBikerTool = () => {
-  const userDetails = JSON.parse(localStorage.getItem("user-details")!) || {};
-  const userName = userDetails?.userName;
+  const userName = retrieveUserDetails()?.userName;
   const [parcels, setParcels] = useState<IParcel[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -44,13 +43,20 @@ const useBikerTool = () => {
     }
   };
   const updateParcelStatus = async () => {
-    if (addedItem.parcelName && addedItem.parcelStatus) {
-      const response = await post("/parcel/signup", addedItem);
-      if (response) {
+    if (addedItem.parcelStatus) {
+      const updatedValues = {
+        status: addedItem.parcelStatus,
+      };
+      const response = await patch(
+        `/parcel/update-parcel-status/${addedItem._id}`,
+        updatedValues
+      );
+      if (response?.data?.message === "Parcel status updated successfully") {
+        setResponseMessage(response?.data?.message);
         setShowToast(true);
+        getParcels();
+        resetHandler();
       }
-      resetHandler();
-      getParcels();
     }
   };
   const updateClickHandler = (item: any, type: string) => {
@@ -68,9 +74,9 @@ const useBikerTool = () => {
         updatedValues
       );
       if (response?.data?.message === "Parcel picked successfully") {
-        getParcels();
         setResponseMessage(response?.data?.message);
         setShowToast(true);
+        getParcels();
         resetHandler();
       }
     }
@@ -97,9 +103,7 @@ const useBikerTool = () => {
     handleInputChange,
     addedItem,
     mode,
-    setMode,
     resetHandler,
-    setAddedItem,
     updateClickHandler,
     statusesList,
     userName,

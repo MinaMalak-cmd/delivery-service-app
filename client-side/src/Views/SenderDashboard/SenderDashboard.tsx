@@ -1,7 +1,8 @@
+import { reformatDate } from "../../Utils/dateFormat";
+import { IParcel } from "../../Utils/interfaces";
 import useSenderDashboard from "./useSenderDashboard";
 import {
   Form,
-  Modal,
   Toast,
   ToastContainer,
   Card,
@@ -27,11 +28,11 @@ const SenderDashboard = () => {
           <div className="col-sm-11 m-auto">
             <Card bg="info" text="dark" className="mb-2 ">
               <Card.Header>
-                {(mode === "Update") ? "Update Parcel" : "Add Parcel"}
+                Add Parcel
               </Card.Header>
               <Card.Body>
                 <Card.Title>
-                  {(mode === "Update") ? "Update Parcel" : "Add Parcel"}
+                Add Parcel
                 </Card.Title>
                 <Card.Text>
                   <Form
@@ -109,14 +110,13 @@ const SenderDashboard = () => {
                   <th>Pickup Address</th>
                   <th>Dropoff Address</th>
                   <th>Parcel Status</th>
-                  <th>Parcel Delivered by</th>
+                  <th className="text-danger">Parcel Delivered by</th>
                   <th>Parcel Pickup Time</th>
                   <th>Parcel Dropoff Time</th>
-                  {/* <th>Actions</th> */}
                 </tr>
               </thead>
               <tbody>
-                {parcels?.map((parcel: any) => {
+                {parcels?.map((parcel: IParcel) => {
                   return (
                     <tr key={parcel._id}>
                       <td>{parcel.parcelName}</td>
@@ -124,8 +124,8 @@ const SenderDashboard = () => {
                       <td>{parcel.dropOffAddress}</td>
                       <td>{parcel.parcelStatus}</td>
                       <td>{parcel.deliveredBy?.userName || 'not picked yet'}</td>
-                      <td>{parcel?.pickupTime || '--'}</td>
-                      <td>{parcel?.dropOffTime || '--'}</td>
+                      <td>{reformatDate(parcel?.pickupTime)}</td>
+                      <td>{reformatDate(parcel?.dropOffTime)}</td>
                     </tr>
                   );
                 })}

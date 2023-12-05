@@ -13,7 +13,7 @@ const useSenderDashboard = () => {
         dropOffAddress: ""
     });
     useEffect(() => {
-        getParcels();
+        getMyParcels();
     }, []);
     useEffect(() => {
       setValidated(false);
@@ -25,10 +25,13 @@ const useSenderDashboard = () => {
             [key]: value
         });
     }
-    const getParcels = async() =>{
-        const response = await get("/parcel");
-        // setParcels(response?.data.result);
-        setParcels([]);
+    const getMyParcels = async() =>{
+        const response = await get("/parcel/get-all-user-assigned-parcels");
+        if (response?.data?.message === "parcels retrieved successfully") {
+          setParcels(response?.data?.parcels);
+        } else {
+          setParcels([]);
+        }
     }
     const addParcel = async() =>{
         if(addedItem.parcelName){
@@ -37,7 +40,7 @@ const useSenderDashboard = () => {
                 setShowToast(true);
             }
             resetHandler();
-            getParcels();
+            getMyParcels();
         }
     }
     const updateParcel = async() =>{
@@ -47,7 +50,7 @@ const useSenderDashboard = () => {
             //     setShowToast(true);
             // }
             // resetHandler();
-            // getParcels();
+            // getMyParcels();
         }
     }
     const handleSubmit = () => {

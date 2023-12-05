@@ -10,9 +10,6 @@ import {
 const SenderDashboard = () => {
   const {
     parcels,
-    setDeletedItem,
-    deletedItem,
-    deleteParcel,
     showToast,
     setShowToast,
     validated,
@@ -20,9 +17,7 @@ const SenderDashboard = () => {
     handleInputChange,
     addedItem,
     mode, 
-    setMode,
     resetHandler,
-    setAddedItem
   } = useSenderDashboard();
 
   return (
@@ -131,22 +126,6 @@ const SenderDashboard = () => {
                       <td>{parcel.deliveredBy?.userName || 'not picked yet'}</td>
                       <td>{parcel?.pickupTime || '--'}</td>
                       <td>{parcel?.dropOffTime || '--'}</td>
-                      {/* <td>
-                        <div aria-label="parcel table actions" className="d-flex">
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => {setAddedItem(parcel); setMode("Update");}}
-                          >
-                            Update
-                          </button>
-                          <button
-                            className="btn btn-danger mx-2"
-                            onClick={() => setDeletedItem(parcel.id)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td> */}
                     </tr>
                   );
                 })}
@@ -154,28 +133,6 @@ const SenderDashboard = () => {
             </table>
           </div>
         </div>
-        {/* <div className="row">
-          <Modal
-            show={deletedItem ? true : false}
-            onHide={() => setDeletedItem(NaN)}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Delete Item</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Are you sure you want to delete this item ?</Modal.Body>
-            <Modal.Footer>
-              <button
-                className="btn btn-secondary"
-                onClick={() => setDeletedItem(NaN)}
-              >
-                Close
-              </button>
-              <button className="btn btn-primary" onClick={deleteParcel}>
-                Save Changes
-              </button>
-            </Modal.Footer>
-          </Modal>
-        </div> */}
         <div className="row">
           <ToastContainer className="bottom-end">
             <Toast

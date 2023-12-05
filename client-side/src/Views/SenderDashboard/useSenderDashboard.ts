@@ -1,74 +1,9 @@
 import { useEffect, useState } from "react";
-import { deleteRequest, get, post, update } from "../../Services/httpMethods";
+import { get, post } from "../../Services/httpMethods";
+import { IParcel } from "../../Utils/interfaces";
 
 const useSenderDashboard = () => {
-    const tempParcels = [
-        {
-          _id: "656b06d60b9cd6040e60ec28",
-          createdBy: {
-            _id: "64a2835d0d891295bcb000c8",
-            userName: "mina elan",
-            role: "user",
-          },
-          parcelName: "eeee",
-          pickupAddress: "Cairo",
-          dropOffAddress: "Gize",
-          parcelStatus: "delivered",
-          createdAt: "2023-12-02T10:28:38.863Z",
-          updatedAt: "2023-12-02T14:40:32.258Z",
-        //   deliveredBy: {
-        //     _id: "74a283720d891295bcb030cc",
-        //     userName: "ahmed salah",
-        //     role: "biker",
-        //   },
-        //   dropOffTime: "4-12-2023",
-        //   pickupTime: "3-12-2023",
-        },
-        {
-          _id: "656b06d60b9cd6040e60ec28",
-          createdBy: {
-            _id: "64a2835d0d891295bcb000c8",
-            userName: "mina elan",
-            role: "user",
-          },
-          parcelName: "eeee",
-          pickupAddress: "Cairo",
-          dropOffAddress: "Gize",
-          parcelStatus: "delivered",
-          createdAt: "2023-12-02T10:28:38.863Z",
-          updatedAt: "2023-12-02T14:40:32.258Z",
-          deliveredBy: {
-            _id: "74a283720d891295bcb030cc",
-            userName: "ahmed salah",
-            role: "biker",
-          },
-          dropOffTime: "4-12-2023",
-          pickupTime: "3-12-2023",
-        },
-        {
-          _id: "656b06d60b9cd6040e60ec28",
-          createdBy: {
-            _id: "64a2835d0d891295bcb000c8",
-            userName: "mina elan",
-            role: "user",
-          },
-          parcelName: "eeee",
-          pickupAddress: "Cairo",
-          dropOffAddress: "Gize",
-          parcelStatus: "delivered",
-          createdAt: "2023-12-02T10:28:38.863Z",
-          updatedAt: "2023-12-02T14:40:32.258Z",
-          deliveredBy: {
-            _id: "74a283720d891295bcb030cc",
-            userName: "ahmed salah",
-            role: "biker",
-          },
-          dropOffTime: "4-12-2023",
-          pickupTime: "3-12-2023",
-        },
-      ]
-    const [parcels, setParcels] = useState(tempParcels);
-    const [deletedItem, setDeletedItem] = useState(NaN);
+    const [parcels, setParcels] = useState<IParcel[]>([]);
     const [showToast, setShowToast] = useState(false);
     const [validated, setValidated] = useState(false);
     const [mode, setMode] = useState("Add");
@@ -93,19 +28,10 @@ const useSenderDashboard = () => {
     const getParcels = async() =>{
         const response = await get("/parcel");
         // setParcels(response?.data.result);
-        setParcels(tempParcels);
-    }
-    const deleteParcel = async() =>{
-        const response = await deleteRequest(`/parcel/${deletedItem}`);
-        if(response){
-            setShowToast(true);
-        }
-        setDeletedItem(NaN);
-        getParcels();
+        setParcels([]);
     }
     const addParcel = async() =>{
         if(addedItem.parcelName){
-            console.log("🚀 ~ file: useSenderDashboard.ts:108 ~ addParcel ~ addedItem:", addedItem)
             const response = await post("/parcel/signup", addedItem);
             if(response){
                 setShowToast(true);
@@ -143,9 +69,6 @@ const useSenderDashboard = () => {
     }
     return {
         parcels,
-        setDeletedItem,
-        deletedItem,
-        deleteParcel,
         showToast, 
         setShowToast,
         validated,
@@ -154,9 +77,7 @@ const useSenderDashboard = () => {
         handleInputChange,
         addedItem,
         mode, 
-        setMode,
         resetHandler,
-        setAddedItem
     };
 }
  

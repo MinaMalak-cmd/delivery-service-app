@@ -227,28 +227,6 @@ const BikerTool = () => {
             </table>
           </div>
         </div>
-        {/* <div className="row">
-          <Modal
-            show={deletedItem ? true : false}
-            onHide={() => setDeletedItem(NaN)}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Delete Item</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Are you sure you want to delete this item ?</Modal.Body>
-            <Modal.Footer>
-              <button
-                className="btn btn-secondary"
-                onClick={() => setDeletedItem(NaN)}
-              >
-                Close
-              </button>
-              <button className="btn btn-primary" onClick={deleteParcel}>
-                Save Changes
-              </button>
-            </Modal.Footer>
-          </Modal>
-        </div> */}
         <div className="row">
           <ToastContainer className="bottom-end">
             <Toast
@@ -256,7 +234,7 @@ const BikerTool = () => {
               show={showToast}
               delay={3000}
               autohide
-              bg="primary"
+              bg="warning"
             >
               <Toast.Body className="text-white">
                 {responseMessage}

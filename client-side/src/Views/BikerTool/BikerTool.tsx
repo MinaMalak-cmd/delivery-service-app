@@ -5,6 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Alert from "react-bootstrap/Alert";
 import { IParcel } from "../../Utils/interfaces";
+import { reformatDate } from "../../Utils/dateFormat";
 
 const BikerTool = () => {
   const {
@@ -183,8 +184,8 @@ const BikerTool = () => {
                       <td>
                         {parcel.deliveredBy?.userName || "not picked yet"}
                       </td>
-                      <td>{parcel?.pickupTime ? parcel.pickupTime.split("-").reverse().join("-") : "--"}</td>
-                      <td>{parcel?.dropOffTime ? parcel.dropOffTime.split("-").reverse().join("-") : "--"}</td>
+                      <td>{reformatDate(parcel?.pickupTime)}</td>
+                      <td>{reformatDate(parcel?.dropOffTime)}</td>
                       <td>
                         <div
                           aria-label="parcel table actions"

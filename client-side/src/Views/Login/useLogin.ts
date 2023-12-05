@@ -20,11 +20,12 @@ const useLogin = () => {
     }
     const handleLogin = async() =>{
         if(addedItem.userName && addedItem.password){
-            console.log("🚀 ~ file: useLogin.ts:108 ~ addParcel ~ addedItem:", addedItem)
-            // const response = await post("/parcel/signup", addedItem);
-            // if(response){
-            //     setShowToast(true);
-            // }
+            const response = await post("/user/login", addedItem);
+            if(response?.status === 200 && response?.data?.message === "login success"){
+                setShowToast(true);
+                localStorage.setItem("access-token", response?.data?.accessToken);
+                localStorage.setItem("user-details", JSON.stringify(response?.data?.user));
+            }
             resetHandler();
         }
     }

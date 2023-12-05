@@ -1,12 +1,7 @@
 import { reformatDate } from "../../Utils/dateFormat";
 import { IParcel } from "../../Utils/interfaces";
 import useSenderDashboard from "./useSenderDashboard";
-import {
-  Form,
-  Toast,
-  ToastContainer,
-  Card,
-} from "react-bootstrap";
+import { Form, Toast, ToastContainer, Card } from "react-bootstrap";
 
 const SenderDashboard = () => {
   const {
@@ -14,11 +9,12 @@ const SenderDashboard = () => {
     showToast,
     setShowToast,
     validated,
-    handleSubmit,
     handleInputChange,
     addedItem,
-    mode, 
+    mode,
     resetHandler,
+    addParcel,
+    responseMessage,
   } = useSenderDashboard();
 
   return (
@@ -27,21 +23,20 @@ const SenderDashboard = () => {
         <div className="row">
           <div className="col-sm-11 m-auto">
             <Card bg="info" text="dark" className="mb-2 ">
-              <Card.Header>
-                Add Parcel
-              </Card.Header>
+              <Card.Header>Add Parcel</Card.Header>
               <Card.Body>
-                <Card.Title>
-                Add Parcel
-                </Card.Title>
+                <Card.Title>Add Parcel</Card.Title>
                 <Card.Text>
                   <Form
                     autoComplete="off"
                     noValidate
                     validated={validated}
-                    onSubmit={handleSubmit}
+                    onSubmit={addParcel}
                   >
-                    <Form.Group className="mb-3" controlId="parcel.ControlInput1">
+                    <Form.Group
+                      className="mb-3"
+                      controlId="parcel.ControlInput1"
+                    >
                       <Form.Label>Parcel Name</Form.Label>
                       <Form.Control
                         type="text"
@@ -56,7 +51,10 @@ const SenderDashboard = () => {
                         Please Enter Parcel Name.
                       </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="parcel.ControlInput2">
+                    <Form.Group
+                      className="mb-3"
+                      controlId="parcel.ControlInput2"
+                    >
                       <Form.Label>Pickup Address</Form.Label>
                       <Form.Control
                         type="text"
@@ -67,7 +65,10 @@ const SenderDashboard = () => {
                         value={addedItem.pickupAddress}
                       />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="parcel.ControlInput2">
+                    <Form.Group
+                      className="mb-3"
+                      controlId="parcel.ControlInput2"
+                    >
                       <Form.Label>Dropoff Address</Form.Label>
                       <Form.Control
                         type="text"
@@ -81,11 +82,11 @@ const SenderDashboard = () => {
                     <button
                       className="btn btn-danger"
                       type="button"
-                      onClick={handleSubmit}
+                      onClick={addParcel}
                     >
-                      {(mode === "Update") ? "Update Parcel" : "Add Parcel"}
+                      Add Parcel
                     </button>
-                    {(mode === "Update") && 
+                    {mode === "Update" && (
                       <button
                         className="btn btn-dark mx-2"
                         type="button"
@@ -93,7 +94,7 @@ const SenderDashboard = () => {
                       >
                         Reset
                       </button>
-                    }
+                    )}
                   </Form>
                 </Card.Text>
               </Card.Body>
@@ -123,7 +124,9 @@ const SenderDashboard = () => {
                       <td>{parcel.pickupAddress}</td>
                       <td>{parcel.dropOffAddress}</td>
                       <td>{parcel.parcelStatus}</td>
-                      <td>{parcel.deliveredBy?.userName || 'not picked yet'}</td>
+                      <td>
+                        {parcel.deliveredBy?.userName || "not picked yet"}
+                      </td>
                       <td>{reformatDate(parcel?.pickupTime)}</td>
                       <td>{reformatDate(parcel?.dropOffTime)}</td>
                     </tr>
@@ -140,15 +143,12 @@ const SenderDashboard = () => {
               show={showToast}
               delay={3000}
               autohide
-              bg="primary"
+              bg="warning"
             >
-              <Toast.Body className="text-white">
-                your request done successfully
-              </Toast.Body>
+              <Toast.Body className="text-white">{responseMessage}</Toast.Body>
             </Toast>
           </ToastContainer>
         </div>
-       
       </div>
     </>
   );

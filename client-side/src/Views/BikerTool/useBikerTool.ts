@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
-import { get, post } from "../../Services/httpMethods";
+import { get, post, update } from "../../Services/httpMethods";
+import { IParcel } from "../../Utils/interfaces";
+import { AxiosError } from "axios";
 
 const useBikerTool = () => {
   const userDetails = JSON.parse(localStorage.getItem("user-details")!) || {};
   const userName = userDetails?.userName;
-  const [parcels, setParcels] = useState([]);
+  const [parcels, setParcels] = useState<IParcel[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [validated, setValidated] = useState(false);
   const [mode, setMode] = useState("Add");
-  const [addedItem, setAddedItem] = useState({
-    parcelName: "",
-    pickupAddress: "",
-    dropOffAddress: "",
-    dropOffTime: "",
-    pickupTime: "",
-    parcelStatus:"",
-    _id:""
-  });
+  const [addedItem, setAddedItem] = useState<IParcel>({} as IParcel);
   const [statusesList, setStatusesList] = useState([]);
+  const [responseMessage, setResponseMessage] = useState("");
   useEffect(() => {
     getParcels();
     getStatusesList();
@@ -33,21 +28,18 @@ const useBikerTool = () => {
     });
   };
   const getParcels = async () => {
-    // const response = await get("/parcel/get-all-user-assigned-parcels");
     const response = await get("/parcel");
-    console.log("🚀 ~ file: useBikerTool.ts:37 ~ getParcels ~ response:", response)
-    if(response?.data?.message === "parcels retrieved successfully"){
+    if (response?.data?.message === "parcels retrieved successfully") {
       setParcels(response?.data?.parcels);
-    }else{
+    } else {
       setParcels([]);
     }
   };
   const getStatusesList = async () => {
     const response = await get("/parcel/get-statuses");
-    if(response?.data?.message === "statuses retrieved successfully"){
+    if (response?.data?.message === "statuses retrieved successfully") {
       setStatusesList(response?.data?.statuses);
-      console.log("🚀 ~ file: useBikerTool.ts:49 ~ getStatusesList ~ response?.data?.statuses:", response?.data?.statuses)
-    }else{
+    } else {
       setStatusesList([]);
     }
   };
@@ -61,19 +53,26 @@ const useBikerTool = () => {
       getParcels();
     }
   };
-  const updateClickHandler = (item: any, type:string) => {
-    setAddedItem(item); 
+  const updateClickHandler = (item: any, type: string) => {
+    setAddedItem(item);
     setMode(type);
-  }
+  };
   const updateParcel = async () => {
-    if (addedItem.parcelName) {
-      // const response = await update(`/parcel/${addedItem.id}`, addedItem);
-      // if(response){
-      //     setShowToast(true);
-      // }
-      resetHandler();
-      getParcels();
-      
+    if (addedItem.pickupTime && addedItem.dropOffTime) {
+      const updatedValues = {
+        pickupTime: addedItem.pickupTime,
+        dropOffTime: addedItem.dropOffTime,
+      };
+      const response = await update(
+        `/parcel/assign-to/${addedItem._id}`,
+        updatedValues
+      );
+      if (response?.data?.message === "Parcel picked successfully") {
+        getParcels();
+        setResponseMessage(response?.data?.message);
+        setShowToast(true);
+        resetHandler();
+      }
     }
   };
   const handleSubmit = () => {
@@ -85,15 +84,7 @@ const useBikerTool = () => {
     setValidated(true);
   };
   const resetHandler = () => {
-    setAddedItem({
-      parcelName: "",
-      pickupAddress: "",
-      dropOffAddress: "",
-      dropOffTime: "",
-      pickupTime: "",
-      parcelStatus:"",
-      _id:""
-    });
+    setAddedItem({} as IParcel);
     setMode("Add");
   };
   return {
@@ -111,7 +102,8 @@ const useBikerTool = () => {
     setAddedItem,
     updateClickHandler,
     statusesList,
-    userName
+    userName,
+    responseMessage,
   };
 };
 

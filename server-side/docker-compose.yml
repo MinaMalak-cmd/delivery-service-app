@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  mongo_db:
+    image: mongo:latest
+    container_name: db_container
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+  
+  # Node api service
+  api:
+    build: .
+    ports:
+      # local->container
+      - 4000:3000
+    env_file:
+      - ./config/.env
+      # PORT: 3000
+      # MONGODB_URI: mongodb://127.0.0.1:27017
+      # MONGODB_URI: mongodb://mongo_db:27017
+      # DB_NAME: Service-Delivery-App
+    depends_on: 
+      - mongo_db
+
+volumes:
+  mongo_data: 

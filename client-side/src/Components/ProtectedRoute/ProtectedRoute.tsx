@@ -1,11 +1,9 @@
-import React from 'react'
-import {useSelector} from "react-redux"
 import {Navigate, Outlet} from "react-router-dom"
-import { IAuthSlice } from '../../Redux/AuthSlice';
+import { retrieveAccessToken, retrieveUserDetails } from '../../Utils/localStorageGetters';
 
 const ProtectedRoute = ({ allowedRole }: { allowedRole: string }) => {
-    const isAuthenticated = useSelector((state:IAuthSlice) => state.isAuthenticated);
-    const userRole = useSelector((state:IAuthSlice) => state?.userDetails?.role);
+    const isAuthenticated = retrieveAccessToken();
+    const userRole = retrieveUserDetails().role;
     if(isAuthenticated && userRole === allowedRole){
         return <Outlet />
     }

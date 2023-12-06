@@ -69,7 +69,7 @@ const Login = () => {
         <ToastComponent
           showToast={showToast}
           onCloseHandler={() => setShowToast(false)}
-          responseMessage="your request done successfully"
+          responseMessage="your request done successfully, you will be redirected now"
         />
       </div>
     </>

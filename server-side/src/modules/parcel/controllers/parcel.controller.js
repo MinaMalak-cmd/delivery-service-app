@@ -60,9 +60,6 @@ export const getAllUserAssignedParcels = asyncHandler(
 
 export const addParcel = asyncHandler(async (req, res, next) => {
   const { parcelName, pickupAddress, dropOffAddress } = req.body;
-  if ([parcelName, pickupAddress, dropOffAddress].some((item) => !item)) {
-    return next(new Error("All fields are required", { cause: 400 }));
-  }
   const parcelObject = {
     createdBy: req.user._id,
     parcelName,
@@ -70,14 +67,11 @@ export const addParcel = asyncHandler(async (req, res, next) => {
     dropOffAddress,
   };
   const parcel = await parcelModel.create(parcelObject);
-  if (!parcel) {
-    return next(new Error("You can't add this resource", { cause: 500 }));
-  }
-  return SuccessResponse(
+  return parcel? SuccessResponse(
     res,
     { message: "Parcel created successfully", statusCode: 230, parcel },
     201
-  );
+  ): next(new Error("You can't add this resource", { cause: 500 }));
 });
 
 export const assignParcel = asyncHandler(async (req, res, next) => {
@@ -93,7 +87,7 @@ export const assignParcel = asyncHandler(async (req, res, next) => {
   if (!parcel) {
     return next(new Error("No parcel available with this id", { cause: 400 }));
   }
-  if (req.user._id.toString() != parcel?.deliveredBy?.toString()) {
+  if (parcel?.deliveredBy && req.user._id.toString() != parcel?.deliveredBy?.toString()) {
     return next(new Error("You must be the delivery person", { cause: 400 }));
   }
   parcel.deliveredBy = req.user._id;
@@ -129,18 +123,18 @@ export const updateParcelStatus = asyncHandler(async (req, res, next) => {
   }
   parcel.parcelStatus = status;
   const updatedParcel = await parcel.save();
-  if (!updatedParcel) {
-    return next(new Error("You can't update this resource", { cause: 500 }));
-  }
-  return SuccessResponse(
-    res,
-    {
-      message: "Parcel status updated successfully",
-      statusCode: 230,
-      updatedParcel,
-    },
-    200
-  );
+
+  return updatedParcel
+    ? SuccessResponse(
+        res,
+        {
+          message: "Parcel status updated successfully",
+          statusCode: 230,
+          updatedParcel,
+        },
+        200
+      )
+    : next(new Error("You can't update this resource", { cause: 500 }));
 });
 
 export const getAllStatuses = asyncHandler(async (req, res, next) => {

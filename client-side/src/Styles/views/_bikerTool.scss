@@ -1,0 +1,28 @@
+.biker-tool {
+  .not-asigned {
+    background: green !important;
+    color: white !important;
+  }
+  .status-delivered {
+    color: #fff;
+    background: #0d6efd;
+    border: 2px solid #0d6efd;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .status-pending {
+    color: black;
+    background: #ffc107;
+    border: 2px solid #ffc107;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .status-picked {
+    color: white;
+    background: #6c757d;
+    border: 2px solid #6c757d;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+}

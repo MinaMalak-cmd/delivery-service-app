@@ -104,7 +104,7 @@ const SenderDashboard = () => {
         </div>
         <div className="row mt-2">
           <div className="col-sm-11 m-auto">
-            <h2 className="text-info mt-2">My Parcels List</h2>
+            <h2 className="text-info my-3-">My Parcels List</h2>
             {parcels.length > 0 ?
               <table className="table table-info table-striped table-bordered table-hover">
                 <thead>

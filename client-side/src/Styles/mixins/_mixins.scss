@@ -1,0 +1,7 @@
+@mixin status-style($text-color, $background-color, $border-color) {
+    color: $text-color;
+    background: $background-color;
+    border: 2px solid $border-color;
+    border-radius: 5px;
+    text-align: center;
+  }

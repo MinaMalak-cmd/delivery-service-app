@@ -3,17 +3,18 @@ export interface IUser {
     userName: string;
     role?: "user" | "biker";
 }
-
+export type IParcelStatus = "picked" | "pending" | "delivered"
 export interface IParcel {
   _id: string;
   createdBy: IUser;
   parcelName: string;
   pickupAddress: string;
   dropOffAddress: string;
-  parcelStatus: "picked" | "pending" | "delivered";
+  parcelStatus: IParcelStatus;
   createdAt: Date;
   updatedAt: Date;
   deliveredBy?: IUser;
   dropOffTime?: string;
   pickupTime?: string;
 }
+

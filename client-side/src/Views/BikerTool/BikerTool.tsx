@@ -7,6 +7,7 @@ import Alert from "react-bootstrap/Alert";
 import { IParcel } from "../../Utils/interfaces";
 import { reformatDate } from "../../Utils/dateFormat";
 import ToastComponent from "../../Components/Toast/ToastComponent";
+import StatusWrapper from "../../Components/StatusWrapper/StatusWrapper";
 
 const BikerTool = () => {
   const {
@@ -27,7 +28,7 @@ const BikerTool = () => {
 
   return (
     <>
-      <div className="container-fluid py-3 px-3">
+      <div className="biker-tool container-fluid py-3 px-3">
         {["assign", "update-status"].includes(mode) && (
           <div className="row">
             <div className="col-sm-11 m-auto">
@@ -158,8 +159,8 @@ const BikerTool = () => {
         )}
         <div className="row mt-2">
           <div className="col-sm-11 m-auto">
-            <h2 className="text-info mt-2">All parcels List</h2>
-            {parcels.length > 0 ?
+            <h2 className="text-info mt-2 mb-3">All parcels List</h2>
+            {parcels.length > 0 ? (
               <table className="table table-info table-striped table-bordered table-hover">
                 <thead>
                   <tr>
@@ -182,7 +183,9 @@ const BikerTool = () => {
                         <td>{parcel.createdBy.userName}</td>
                         <td>{parcel.pickupAddress}</td>
                         <td>{parcel.dropOffAddress}</td>
-                        <td>{parcel.parcelStatus}</td>
+                        <td>
+                          <StatusWrapper parcelStatus={parcel.parcelStatus}/>
+                        </td>
                         <td>
                           {parcel.deliveredBy?.userName || "not picked yet"}
                         </td>
@@ -217,7 +220,10 @@ const BikerTool = () => {
                               </>
                             ) : (
                               <>
-                                <Alert variant="danger" className="my-0  py-1">
+                                <Alert
+                                  variant="danger"
+                                  className="my-0  py-1 not-asigned"
+                                >
                                   This parcel is assigned to another biker !
                                 </Alert>
                               </>
@@ -229,9 +235,9 @@ const BikerTool = () => {
                   })}
                 </tbody>
               </table>
-            :
-            <h4 className="text-danger mt-3">No items found !</h4>
-            }
+            ) : (
+              <h4 className="text-danger mt-3">No items found !</h4>
+            )}
           </div>
         </div>
         <ToastComponent

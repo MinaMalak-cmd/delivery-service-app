@@ -105,36 +105,41 @@ const SenderDashboard = () => {
         <div className="row mt-2">
           <div className="col-sm-11 m-auto">
             <h2 className="text-info mt-2">My Parcels List</h2>
-            <table className="table table-info table-striped table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>Parcel Name</th>
-                  <th>Pickup Address</th>
-                  <th>Dropoff Address</th>
-                  <th>Parcel Status</th>
-                  <th className="text-danger">Parcel Delivered by</th>
-                  <th>Parcel Pickup Time</th>
-                  <th>Parcel Dropoff Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {parcels?.map((parcel: IParcel) => {
-                  return (
-                    <tr key={parcel._id}>
-                      <td>{parcel.parcelName}</td>
-                      <td>{parcel.pickupAddress}</td>
-                      <td>{parcel.dropOffAddress}</td>
-                      <td>{parcel.parcelStatus}</td>
-                      <td>
-                        {parcel.deliveredBy?.userName || "not picked yet"}
-                      </td>
-                      <td>{reformatDate(parcel?.pickupTime)}</td>
-                      <td>{reformatDate(parcel?.dropOffTime)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            {parcels.length > 0 ?
+              <table className="table table-info table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Parcel Name</th>
+                    <th>Pickup Address</th>
+                    <th>Dropoff Address</th>
+                    <th>Parcel Status</th>
+                    <th className="text-danger">Parcel Delivered by</th>
+                    <th>Parcel Pickup Time</th>
+                    <th>Parcel Dropoff Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {parcels?.map((parcel: IParcel) => {
+                    return (
+                      <tr key={parcel._id}>
+                        <td>{parcel.parcelName}</td>
+                        <td>{parcel.pickupAddress}</td>
+                        <td>{parcel.dropOffAddress}</td>
+                        <td>{parcel.parcelStatus}</td>
+                        <td>
+                          {parcel.deliveredBy?.userName || "not picked yet"}
+                        </td>
+                        <td>{reformatDate(parcel?.pickupTime)}</td>
+                        <td>{reformatDate(parcel?.dropOffTime)}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            : 
+            <h4 className="text-danger mt-3">No items found !</h4>
+            
+            }
           </div>
         </div>
         <ToastComponent

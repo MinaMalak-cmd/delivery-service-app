@@ -9,7 +9,8 @@ Check out a [live demo](---).
 ## 📦 Installation
 
 To go with the latest version please copy and past in your terminal the following steps: 
-⚠️❗ <b>Take into ocnsideration I'm working on Node version 18.17.1 </b>
+
+⚠️❗ <b>Take into consideration I'm working on Node version 18.17.1 </b>
 ```bash
 git clone git@github.com:MinaMalak-cmd/delivery-service-app.git
 ```

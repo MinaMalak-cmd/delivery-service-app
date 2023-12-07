@@ -33,12 +33,14 @@ const ParcelTable = ({
               ? "Update my parcel"
               : "Assign to me"}
           </button>
-          <button
-            className="btn btn-warning mx-2"
-            onClick={() => updateClickHandler(parcel, "update-status")}
-          >
-            Update status
-          </button>
+          {parcel.deliveredBy?.userName && 
+            <button
+              className="btn btn-warning mx-2"
+              onClick={() => updateClickHandler(parcel, "update-status")}
+            >
+              Update status
+            </button>
+          }
         </>
       ) : (
         <>

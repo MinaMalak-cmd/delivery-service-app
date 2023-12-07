@@ -2,10 +2,25 @@ import mongoose from "mongoose";
 
 import { asyncHandler, SuccessResponse } from "../../../utils/handlers.js";
 import parcelModel from "../models/parcel.model.js";
-import { parcelStatuses } from "../../../utils/constants.js";
+import { parcelStatuses, systemRoles } from "../../../utils/constants.js";
 
+const fetchParcels = async (additionalConditions = {}) => {
+  return await parcelModel
+    .find(additionalConditions)
+    .select("-__v")
+    .populate([
+      {
+        path: "deliveredBy",
+        select: "userName role",
+      },
+      {
+        path: "createdBy",
+        select: "userName role",
+      },
+    ]);
+};
 export const getAllParcels = asyncHandler(async (req, res, next) => {
-  const parcels = await parcelModel.find();
+  const parcels = await fetchParcels();
   return parcels
     ? SuccessResponse(
         res,
@@ -21,21 +36,10 @@ export const getAllParcels = asyncHandler(async (req, res, next) => {
 
 export const getAllUserAssignedParcels = asyncHandler(
   async (req, res, next) => {
-    const parcels = await parcelModel
-      .find({
-        $or: [{ deliveredBy: req.user._id }, { createdBy: req.user._id }],
-      })
-      .select("-__v")
-      .populate([
-        {
-          path: "deliveredBy",
-          select: "userName role",
-        },
-        {
-          path: "createdBy",
-          select: "userName role",
-        },
-      ]);
+    const parcels = await fetchParcels({
+      $or: [{ deliveredBy: req.user._id }, { createdBy: req.user._id }],
+    });
+
     return parcels
       ? SuccessResponse(
           res,
@@ -58,6 +62,9 @@ export const addParcel = asyncHandler(async (req, res, next) => {
   const { parcelName, pickupAddress, dropOffAddress } = req.body;
   if ([parcelName, pickupAddress, dropOffAddress].some((item) => !item)) {
     return next(new Error("All fields are required", { cause: 400 }));
+  }
+  if (req.user.role != systemRoles.USER) {
+    return next(new Error("You must be a user to add a parcel", { cause: 400 }));
   }
   const parcelObject = {
     createdBy: req.user._id,
@@ -84,6 +91,9 @@ export const assignParcel = asyncHandler(async (req, res, next) => {
   }
   if (!mongoose.Types.ObjectId.isValid(parcelId)) {
     next(new Error("Invalid ObjectId", { cause: 400 }));
+  }
+  if (req.user.role != systemRoles.BIKER) {
+    return next(new Error("You must be a biker to deliver a parcel", { cause: 400 }));
   }
   const parcel = await parcelModel.findById(parcelId);
   if (!parcel) {
@@ -115,6 +125,9 @@ export const updateParcelStatus = asyncHandler(async (req, res, next) => {
   }
   if (!mongoose.Types.ObjectId.isValid(parcelId)) {
     next(new Error("Invalid ObjectId", { cause: 400 }));
+  }
+  if (req.user.role != systemRoles.BIKER) {
+    return next(new Error("You must be a biker to deliver a parcel", { cause: 400 }));
   }
   const parcel = await parcelModel.findById(parcelId);
   if (!parcel) {

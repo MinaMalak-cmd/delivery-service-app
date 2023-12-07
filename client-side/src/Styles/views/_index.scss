@@ -1,0 +1,14 @@
+body{
+    background-image: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
+    
+}
+.toast-container{
+    inset-inline-end: 1px;
+    inset-block-end: 3rem;
+}
+.invalid-feedback{
+    font-size: 1em;
+    font-weight: 600;
+}
+@import './login';
+@import './bikerTool';

@@ -1,0 +1,10 @@
+// to inject any new scss files do the following
+/*
+ 1- first create folder (if needed) called views
+ 2- create separate style file for each view
+ 3- create index file inside views folder to import all views stylesheets
+*/
+@import './colors';
+@import './mixins/mixins';
+@import './components/index';
+@import './views/index';

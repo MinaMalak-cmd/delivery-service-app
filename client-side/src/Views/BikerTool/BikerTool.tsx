@@ -21,30 +21,32 @@ const BikerTool = () => {
   } = useBikerTool();
 
   return (
-    <>
-      <div className="biker-tool container-fluid py-3 px-3">
-        <UpdateParcelForm
-          mode={mode}
-          handleSubmit={handleSubmit}
-          validated={validated}
-          addedItem={addedItem}
-          handleInputChange={handleInputChange}
-          statusesList={statusesList}
-          resetHandler={resetHandler}
-        />
-        <div className="row mt-2">
-          <div className="col-sm-11 m-auto">
-            <h2 className="text-info mt-2 mb-3">All parcels List</h2>
-            <ParcelTable parcels={parcels} userName={userName} updateClickHandler={updateClickHandler}/>
-          </div>
+    <div className="biker-tool container-fluid py-3 px-3">
+      <UpdateParcelForm
+        mode={mode}
+        handleSubmit={handleSubmit}
+        validated={validated}
+        addedItem={addedItem}
+        handleInputChange={handleInputChange}
+        statusesList={statusesList}
+        resetHandler={resetHandler}
+      />
+      <div className="row mt-2">
+        <div className="col-sm-11 m-auto">
+          <h2 className="text-info mt-2 mb-3">All parcels List</h2>
+          <ParcelTable
+            parcels={parcels}
+            userName={userName}
+            updateClickHandler={updateClickHandler}
+          />
         </div>
-        <ToastComponent
-          showToast={showToast}
-          onCloseHandler={() => setShowToast(false)}
-          responseMessage={responseMessage}
-        />
       </div>
-    </>
+      <ToastComponent
+        showToast={showToast}
+        onCloseHandler={() => setShowToast(false)}
+        responseMessage={responseMessage}
+      />
+    </div>
   );
 };
 

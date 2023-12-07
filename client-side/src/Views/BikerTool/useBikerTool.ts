@@ -73,7 +73,7 @@ const useBikerTool = () => {
         `/parcel/assign-to/${addedItem._id}`,
         updatedValues
       );
-      if (response?.data?.message === "Parcel picked successfully") {
+      if (response?.data?.message === "Parcel updated successfully") {
         setResponseMessage(response?.data?.message);
         setShowToast(true);
         getParcels();

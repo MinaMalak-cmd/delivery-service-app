@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { get, patch, update } from "../../Services/httpMethods";
-import { IParcel } from "../../Utils/interfaces";
+import { IParcel, IParcelStatus } from "../../Utils/interfaces";
 import { retrieveUserDetails } from "../../Utils/localStorageGetters";
 
 const useBikerTool = () => {
@@ -10,7 +10,7 @@ const useBikerTool = () => {
   const [validated, setValidated] = useState(false);
   const [mode, setMode] = useState("Add");
   const [addedItem, setAddedItem] = useState<IParcel>({} as IParcel);
-  const [statusesList, setStatusesList] = useState([]);
+  const [statusesList, setStatusesList] = useState<IParcelStatus[]>([]);
   const [responseMessage, setResponseMessage] = useState("");
   useEffect(() => {
     getParcels();

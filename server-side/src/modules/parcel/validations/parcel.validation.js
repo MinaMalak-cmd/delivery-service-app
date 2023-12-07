@@ -16,8 +16,8 @@ export const assignParcel = {
         parcelId : generalFields._id
     }).options({ presence : "required" }),
     body: Joi.object({
-        pickupTime : generalFields.string,
-        dropOffTime : generalFields.string,
+        pickupTime : generalFields.date,
+        dropOffTime : generalFields.date,
     }).options({ presence : "required" })
 }
 

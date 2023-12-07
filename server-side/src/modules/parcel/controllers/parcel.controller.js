@@ -67,27 +67,26 @@ export const addParcel = asyncHandler(async (req, res, next) => {
     dropOffAddress,
   };
   const parcel = await parcelModel.create(parcelObject);
-  return parcel? SuccessResponse(
-    res,
-    { message: "Parcel created successfully", statusCode: 230, parcel },
-    201
-  ): next(new Error("You can't add this resource", { cause: 500 }));
+  return parcel
+    ? SuccessResponse(
+        res,
+        { message: "Parcel created successfully", statusCode: 230, parcel },
+        201
+      )
+    : next(new Error("You can't add this resource", { cause: 500 }));
 });
 
 export const assignParcel = asyncHandler(async (req, res, next) => {
   const { parcelId } = req.params;
   const { pickupTime, dropOffTime } = req.body;
-  if ([pickupTime, dropOffTime].some((item) => !item)) {
-    return next(new Error("All fields are required", { cause: 400 }));
-  }
-  if (!mongoose.Types.ObjectId.isValid(parcelId)) {
-    next(new Error("Invalid ObjectId", { cause: 400 }));
-  }
   const parcel = await parcelModel.findById(parcelId);
   if (!parcel) {
     return next(new Error("No parcel available with this id", { cause: 400 }));
   }
-  if (parcel?.deliveredBy && req.user._id.toString() != parcel?.deliveredBy?.toString()) {
+  if (
+    parcel?.deliveredBy &&
+    req.user._id.toString() != parcel?.deliveredBy?.toString()
+  ) {
     return next(new Error("You must be the delivery person", { cause: 400 }));
   }
   parcel.deliveredBy = req.user._id;
@@ -95,25 +94,24 @@ export const assignParcel = asyncHandler(async (req, res, next) => {
   parcel.dropOffTime = dropOffTime;
   parcel.parcelStatus = parcelStatuses.PICKED;
   const updatedParcel = await parcel.save();
-  if (!updatedParcel) {
-    return next(new Error("You can't update this resource", { cause: 500 }));
-  }
-  return SuccessResponse(
-    res,
-    { message: "Parcel picked successfully", statusCode: 230, updatedParcel },
-    200
-  );
+
+  return updatedParcel
+    ? SuccessResponse(
+        res,
+        {
+          message: "Parcel updated successfully",
+          statusCode: 230,
+          updatedParcel,
+        },
+        200
+      )
+    : next(new Error("You can't update this resource", { cause: 500 }));
 });
 
 export const updateParcelStatus = asyncHandler(async (req, res, next) => {
   const { parcelId } = req.params;
   const { status } = req.body;
-  if (!status || !Object.values(parcelStatuses).includes(status)) {
-    return next(new Error("You must enter a valid status", { cause: 400 }));
-  }
-  if (!mongoose.Types.ObjectId.isValid(parcelId)) {
-    next(new Error("Invalid ObjectId", { cause: 400 }));
-  }
+  
   const parcel = await parcelModel.findById(parcelId);
   if (!parcel) {
     return next(new Error("No parcel available with this id", { cause: 400 }));

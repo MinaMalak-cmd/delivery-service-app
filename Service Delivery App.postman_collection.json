@@ -1,0 +1,269 @@
+{
+	"info": {
+		"_postman_id": "c3b9b558-1729-4188-beb6-d0f4f176b66a",
+		"name": "Service Delivery App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24042125",
+		"_collection_link": "https://speeding-shadow-695076.postman.co/workspace/New-Team-Workspace~62bae366-6bb4-408b-8659-b4816ae1da2c/collection/24042125-c3b9b558-1729-4188-beb6-d0f4f176b66a?action=share&source=collection_link&creator=24042125"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Mina__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzAwMWZmMmEwNGQ0MTZmZmEzOWRlMyIsImlhdCI6MTY5MDM5Mzg0OSwiZXhwIjoxNjkwMzk0NDQ5fQ.9K6RW-GATxqiPT62uWPWjObMJx5v458oqnIQjkxM55Q",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{service-app-url}}/user/get-all",
+							"host": [
+								"{{service-app-url}}"
+							],
+							"path": [
+								"user",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\":\"ahmed salah\",\r\n    \"password\":\"dkfjlkwe\"\r\n}\r\n// {\r\n//     \"userName\":\"farouk shawky\",\r\n//     \"password\":\"skdlfkl\"\r\n// }\r\n// {\r\n//     \"userName\":\"farouk shawky\",\r\n//     \"password\":\"skdlfkl\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{service-app-url}}/user/login",
+							"host": [
+								"{{service-app-url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Parcel",
+			"item": [
+				{
+					"name": "Add Parcel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "HDHJkejk__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTI4MzVkMGQ4OTEyOTViY2IwMDBjOCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzAxNzk3NjA2LCJleHAiOjE3MDIwNTY4MDZ9.MTfFdhvtgv6DXt0mIwDiBbIrDHEmtUjH8qVn-ZjROmw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parcelName\":\"\", \r\n    \"pickupAddress\":\"\",\r\n    \"dropOffAddress\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{service-app-url}}/parcel/create",
+							"host": [
+								"{{service-app-url}}"
+							],
+							"path": [
+								"parcel",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Parcel",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "HDHJkejk__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0YTI4MzcyMGQ4OTEyOTViY2IwMzBjYyIsInJvbGUiOiJiaWtlciIsImlhdCI6MTcwMTk2NTU2MSwiZXhwIjoxNzAyMjI0NzYxfQ.Kjl7r6kCws0vSYeM6OdMN5OmdyX62Uez2oPJ_7brAAs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pickupTime\":\"3-12-2023\",\r\n    \"dropOffTime\":\"4-12-2023\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{service-app-url}}/parcel/assign-to/656b06d60b9cd6040e60ec28",
+							"host": [
+								"{{service-app-url}}"
+							],
+							"path": [
+								"parcel",
+								"assign-to",
+								"656b06d60b9cd6040e60ec28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update parcel status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "HDHJkejk__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0YTI4MzcyMGQ4OTEyOTViY2IwMzBjYyIsInJvbGUiOiJiaWtlciIsImlhdCI6MTcwMTk2NTU2MSwiZXhwIjoxNzAyMjI0NzYxfQ.Kjl7r6kCws0vSYeM6OdMN5OmdyX62Uez2oPJ_7brAAs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"delivered\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{service-app-url}}/parcel/update-parcel-status/656b06d60b9cd6040e60ec28",
+							"host": [
+								"{{service-app-url}}"
+							],
+							"path": [
+								"parcel",
+								"update-parcel-status",
+								"656b06d60b9cd6040e60ec28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Parcels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{service-app-url}}/parcel",
+							"host": [
+								"{{service-app-url}}"
+							],
+							"path": [
+								"parcel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Statuses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{service-app-url}}/parcel/get-statuses",
+							"host": [
+								"{{service-app-url}}"
+							],
+							"path": [
+								"parcel",
+								"get-statuses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All user assigned parcels",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "HDHJkejk__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0YTI4MzcyMGQ4OTEyOTViY2IwMzBjYyIsInJvbGUiOiJiaWtlciIsImlhdCI6MTcwMTc5MjU5NywiZXhwIjoxNzAyMDUxNzk3fQ.ngUcrWa0rM64Aw3b3QjcrGKuovvCD449iMlxIUWOq-o",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{service-app-url}}/parcel/get-all-user-assigned-parcels",
+							"host": [
+								"{{service-app-url}}"
+							],
+							"path": [
+								"parcel",
+								"get-all-user-assigned-parcels"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "service-app-url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+}

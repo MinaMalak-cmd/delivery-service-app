@@ -4,7 +4,7 @@ Delivery service app built uisng Node.js, Express, Mongoose, React, Typescript, 
 
 ## 🖥 Demo
 
-Check out a [live demo](https://drive.google.com/file/d/1U7tcREA0dmbKmObf1YMxwc3_bvZtrNwR/view?usp=sharing).
+Check out a [video demo](https://drive.google.com/file/d/1U7tcREA0dmbKmObf1YMxwc3_bvZtrNwR/view?usp=sharing).
 
 ## 📦 Installation
 
@@ -31,7 +31,7 @@ npm start
 # or
 nodemon
 ```
-Run the development server:
+Run the client server:
 
 ```bash
 

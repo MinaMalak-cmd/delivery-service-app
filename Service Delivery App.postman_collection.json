@@ -258,5 +258,12 @@
 				]
 			}
 		}
+	],
+	"variable": [
+		{
+			"key": "service-app-url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
 	]
 }
